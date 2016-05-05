@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO.Compression;
-using System.IO;
-using System.Xml;
+﻿using System.Xml;
 
 /// <summary>
 /// Helper functions for outputting Workbook (*.twb) and Datasource (*.tds) fles

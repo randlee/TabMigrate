@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using TabRESTMigrate.Properties;
 
 namespace OnlineContentDownloader
 {
@@ -77,10 +76,8 @@ namespace OnlineContentDownloader
         /// <returns></returns>
         private string GeneratePathFromSiteUrl(TableauServerUrls siteUrl)
         {
-            string appPath =
-                Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "TabMigrate");
-
+            string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"TabMigrate");
+            
             //Add the server name to the path
             appPath = Path.Combine(appPath, FileIOHelper.GenerateWindowsSafeFilename(siteUrl.ServerName));
             //Add the site name to the path
@@ -437,11 +434,11 @@ namespace OnlineContentDownloader
                 btnAbortRun.Visible = false;
 
                 //Tell the process to exit?
-                if (this.ExitWhenDoneRunningTask)
+                if (ExitWhenDoneRunningTask)
                 {
                     ExitApplication();
                 }
-                else if (this.AllowUserInterruptions) //Show reports?
+                else if (AllowUserInterruptions) //Show reports?
                 {
                     //Show error reports and other results
                     AsyncTaskDone_Reporting(taskMaster);
@@ -466,7 +463,7 @@ namespace OnlineContentDownloader
         /// </summary>
         private void ExitApplication()
         {
-            this.Close();
+            Close();
         }
 
 
@@ -574,18 +571,62 @@ namespace OnlineContentDownloader
         /// <param name="e"></param>
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Quit the work if its running...
-            var task = _onlineTaskMaster;
-            if(task != null)
+            try
             {
-                task.Abort();
-                _onlineTaskMaster = null;
+                //Quit the work if its running...
+                var task = _onlineTaskMaster;
+                if(task != null)
+                {
+                    task.Abort();
+                    _onlineTaskMaster = null;
+                }
             }
-
-            Application.Exit();
+            finally
+            {
+                Settings.Default.RecentUserName = txtIdInventoryFromUserId.Text;
+                Settings.Default.RecentUrlExportFrom = txtUrlExportFrom.Text;
+                Settings.Default.RecentUrlImportTo = txtUrlImportTo.Text;
+                Settings.Default.RecentUrlInventoryFrom = txtUrlInventoryFrom.Text;
+                if (Settings.Default.SavePassword)
+                {
+                    Settings.Default.RecentPasswordExportFrom = Encrypt(txtPasswordExportFrom.Text);
+                    Settings.Default.RecentPasswordImportTo = Encrypt(txtPasswordImportTo.Text);
+                    Settings.Default.RecentPasswordInventoryFrom = Encrypt(txtPasswordInventoryFrom.Text);
+                }
+                Settings.Default.Save();
+                Application.Exit();
+            }
         }
 
+        private string Encrypt(string input)
+        {
+            return Convert.ToBase64String(StringToBytes(txtPasswordExportFrom.Text));
+        }
 
+        private string Decrypt(string input)
+        {
+            var bytes = Convert.FromBase64CharArray(input.ToCharArray(), 0,input.Length);
+            var result = bytes.ToString();
+            var builder = new StringBuilder(input.Length);
+            foreach(var b in bytes)
+            {
+                builder.Append((char) b);
+            }
+            var result2 = builder.ToString();
+            if (result2 != result)
+                return result2;
+            return result;
+        }
+
+        private byte[] StringToBytes(string input)
+        {
+            var bytes = new byte[input.Length];
+            for(var i=0;i<input.Length;i++)
+            {
+                bytes[i] = (byte) input[i];
+            }
+            return bytes;
+        }
         /// <summary>
         /// Sets the checkbox value to true/false
         /// </summary>
@@ -649,7 +690,7 @@ namespace OnlineContentDownloader
                 //Position it
                 panelShowMe.Left = 0;
                 panelShowMe.Top = panelTopSplitter.Bottom + 5;
-                panelShowMe.Width = this.ClientSize.Width;
+                panelShowMe.Width = ClientSize.Width;
 
                 //Clean up visual settings we had in design mode to make the panels easy to handle
                 panelShowMe.BorderStyle = BorderStyle.None;
@@ -659,7 +700,7 @@ namespace OnlineContentDownloader
 
                 //Position display content around the panel
                 splitContainerStatus.Top = panelShowMe.Bottom + 10;
-                splitContainerStatus.Height = this.ClientSize.Height - splitContainerStatus.Top;
+                splitContainerStatus.Height = ClientSize.Height - splitContainerStatus.Top;
                 panelTopSplitter.Visible = false;
 
 
@@ -771,11 +812,21 @@ namespace OnlineContentDownloader
             //Hide all the panels
             ShowSinglePanelHideOthers(null);
             PopulateChooseActionUI();
-
+            txtIdInventoryFromUserId.Text = Settings.Default.RecentUserName;
+            txtUrlExportFrom.Text = Settings.Default.RecentUrlExportFrom;
+            txtUrlImportTo.Text = Settings.Default.RecentUrlImportTo;
+            txtUrlInventoryFrom.Text = Settings.Default.RecentUrlInventoryFrom;
+            if(Settings.Default.SavePassword)
+            {
+                txtPasswordExportFrom.Text = Decrypt(Settings.Default.RecentPasswordExportFrom);
+                txtPasswordImportTo.Text = Decrypt(Settings.Default.RecentPasswordImportTo);
+                txtPasswordInventoryFrom.Text = Decrypt(Settings.Default.RecentPasswordInventoryFrom);
+            }
             if (_startupCommandLine != null)
             {
                 RunStartupCommandLine();
             }
+
         }
 
         private const string ListAction_Default = "Choose an action";

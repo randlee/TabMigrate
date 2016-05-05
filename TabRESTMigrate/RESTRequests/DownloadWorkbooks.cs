@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Downloads a set of workbooks from server

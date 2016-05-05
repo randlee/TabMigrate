@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 /// <summary>
 /// Helper class.  Files downloaded from Tableau Server can be either binary (octet-stream) or XML (application/xml),

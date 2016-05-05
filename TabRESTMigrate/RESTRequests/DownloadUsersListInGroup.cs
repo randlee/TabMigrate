@@ -1,9 +1,4 @@
-﻿using System;
-using System.Xml;
-using System.Collections.Generic;
-using System.Text;
-
-/// <summary>
+﻿/// <summary>
 /// Get's the list of users in a Tableau Server site.
 /// 
 /// This derives from a base class because "Getting the set of users on the site" and "Getting the set of users in a group" are very similar 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Xml;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
 
 /// <summary>
 /// Sends a request to DELETE a tag from a site's datasource

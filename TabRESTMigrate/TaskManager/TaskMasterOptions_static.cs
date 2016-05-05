@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-//Values we can use for the options we pass to the downloader/uploader
+﻿//Values we can use for the options we pass to the downloader/uploader
 public partial class TaskMasterOptions
 {
     public const int RestApiReponsePageSizeDefault = 1000;

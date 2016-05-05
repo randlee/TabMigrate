@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Xml;
+﻿using System.Collections.Generic;
+
 /// <summary>
 /// Efficent lookup for unevenly distributed sets of data
 /// </summary>

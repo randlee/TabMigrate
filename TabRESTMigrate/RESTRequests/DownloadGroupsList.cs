@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// The list of a Tableau Server Site's groups we have downloaded

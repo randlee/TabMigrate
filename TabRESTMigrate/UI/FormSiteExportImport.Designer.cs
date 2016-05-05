@@ -481,7 +481,7 @@
             this.txtIdExportFrom.TabIndex = 30;
             this.txtIdExportFrom.Text = "testuser@example.com";
             // 
-            // txtUrlExportFrom
+            // txtUrlExportFromText = "https://
             // 
             this.txtUrlExportFrom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(255)))));
             this.txtUrlExportFrom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;

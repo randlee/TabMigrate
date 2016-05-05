@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-/// <summary>
+﻿/// <summary>
 /// Object has a Project Id
 /// </summary>
 interface IHasProjectId

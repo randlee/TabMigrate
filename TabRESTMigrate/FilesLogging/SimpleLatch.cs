@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-
-/// <summary>
+﻿/// <summary>
 /// A simple latch.  Stays false until its set to true
 /// </summary>
 class SimpleLatch

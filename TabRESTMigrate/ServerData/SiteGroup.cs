@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml;
 /// <summary>
 /// Information about a Grou[ in a Server's site

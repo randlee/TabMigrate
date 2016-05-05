@@ -1,6 +1,4 @@
-﻿using System;
-
-/// <summary>
+﻿/// <summary>
 /// What is the behavior during uploads when we cannot find a matching pre-existing projec
 /// </summary>
 public class UploadBehaviorProjects

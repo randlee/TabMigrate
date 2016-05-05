@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Get's the list of users in a Tableau Server site

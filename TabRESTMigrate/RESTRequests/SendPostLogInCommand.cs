@@ -1,10 +1,4 @@
-﻿using System;
-using System.Xml;
-using System.Collections.Generic;
-using System.Text;
-using System.Net;
-
-/// <summary>
+﻿/// <summary>
 /// A arbitrary HTTP GET request we can perform after login into the REST API session
 /// </summary>
 class SendPostLogInCommand : TableauServerSignedInRequestBase

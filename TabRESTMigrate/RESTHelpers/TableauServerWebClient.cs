@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Subclass of the WebClient object that allows use to set a larger/custom timout value so that longer downloads succeed

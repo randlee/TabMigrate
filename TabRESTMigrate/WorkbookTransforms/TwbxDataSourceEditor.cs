@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO.Compression;
 using System.IO;
-using System.Xml;
+
 class TwbxDataSourceEditor
 {
     private readonly string _pathToTwbx;

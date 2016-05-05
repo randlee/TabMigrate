@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TabRESTMigrate.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="RecentUserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">test@example.com</Value>
+    </Setting>
+    <Setting Name="RecentUrlExportFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://10az.online.tableau.com/#/site/my-test-site/projects</Value>
+    </Setting>
+    <Setting Name="SavePassword" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="RecentUrlImportTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://10az.online.tableau.com/#/site/my-test-site</Value>
+    </Setting>
+    <Setting Name="RecentUrlInventoryFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://10az.online.tableau.com/#/site/my-test-site</Value>
+    </Setting>
+    <Setting Name="RecentPasswordExportFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RecentPasswordImportTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="RecentPasswordInventoryFrom" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
 </SettingsFile>

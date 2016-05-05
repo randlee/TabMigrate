@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Helper class for managing access to project Ids and creating server site projects on demand

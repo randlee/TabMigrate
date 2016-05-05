@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using System.IO;
 
 /// <summary>
@@ -85,15 +82,7 @@ static class FileIOHelper
 
         //Subdirectory name
 
-        DateTime now;
-        if(when.HasValue)
-        {
-            now = when.Value;
-        }
-        else
-        {
-            now = DateTime.Now;
-        }
+        DateTime now = when ?? DateTime.Now;
 
         string subNameDateTime = now.Year.ToString() + "-" + now.Month.ToString("00") + "-" + now.Day.ToString("00") + "-" + now.Hour.ToString("00") + now.Minute.ToString("00") + "-" + now.Second.ToString("00");
 

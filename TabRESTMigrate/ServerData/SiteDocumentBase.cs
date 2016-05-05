@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
+﻿using System.Xml;
 
 /// <summary>
 /// Base class for information common to Workbooks and Data Sources, so we don't have lots of redundant code

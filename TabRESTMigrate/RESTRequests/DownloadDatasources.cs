@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Manages the download of a set of data sources from a Tableau Server site

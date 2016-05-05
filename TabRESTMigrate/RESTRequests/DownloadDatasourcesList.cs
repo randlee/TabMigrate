@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Xml;
 using System.Collections.Generic;
-using System.Text;
 
 /// <summary>
 /// Downloads the list of data sources
