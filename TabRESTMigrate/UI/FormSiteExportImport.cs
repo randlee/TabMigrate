@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using TabRESTMigrate.Properties;
+using TabRESTMigrate.FilesLogging;
+using TabRESTMigrate.RESTHelpers;
+using TabRESTMigrate.RESTRequests;
+using TabRESTMigrate.TaskManager;
 
-namespace OnlineContentDownloader
+namespace TabRESTMigrate.UI
 {
     public partial class FormSiteExportImport : Form
     {
@@ -583,50 +586,37 @@ namespace OnlineContentDownloader
             }
             finally
             {
-                Settings.Default.RecentUserName = txtIdInventoryFromUserId.Text;
-                Settings.Default.RecentUrlExportFrom = txtUrlExportFrom.Text;
-                Settings.Default.RecentUrlImportTo = txtUrlImportTo.Text;
-                Settings.Default.RecentUrlInventoryFrom = txtUrlInventoryFrom.Text;
-                if (Settings.Default.SavePassword)
+                var settings = new UserSettings
                 {
-                    Settings.Default.RecentPasswordExportFrom = Encrypt(txtPasswordExportFrom.Text);
-                    Settings.Default.RecentPasswordImportTo = Encrypt(txtPasswordImportTo.Text);
-                    Settings.Default.RecentPasswordInventoryFrom = Encrypt(txtPasswordInventoryFrom.Text);
+                    SavePassword = checkBoxRememberPassword.Checked,
+                    InventoryFrom =
+                    {
+                        UserId = txtIdInventoryFromUserId.Text,
+                        ServerUrl = txtUrlInventoryFrom.Text
+                    },
+                    ExportFrom =
+                    {
+                        UserId = txtIdExportFrom.Text,
+                        ServerUrl = txtUrlExportFrom.Text
+                    },
+                    ImportTo =
+                    {
+                        UserId = txtIdImportTo.Text,
+                        ServerUrl = txtUrlImportTo.Text
+                    }
+                };
+                if (settings.SavePassword)
+                {
+                    settings.ExportFrom.UserPassword = txtPasswordExportFrom.Text;
+                    settings.ImportTo.UserPassword = txtPasswordImportTo.Text;
+                    settings.InventoryFrom.UserPassword = txtPasswordInventoryFrom.Text;
                 }
-                Settings.Default.Save();
-                Application.Exit();
+
+                FileIOHelper.Serialize(settings, UserSettings.DefaultFilename, ExceptionHandler);
+                //Application.Exit();
             }
         }
 
-        private string Encrypt(string input)
-        {
-            return Convert.ToBase64String(StringToBytes(txtPasswordExportFrom.Text));
-        }
-
-        private string Decrypt(string input)
-        {
-            var bytes = Convert.FromBase64CharArray(input.ToCharArray(), 0,input.Length);
-            var result = bytes.ToString();
-            var builder = new StringBuilder(input.Length);
-            foreach(var b in bytes)
-            {
-                builder.Append((char) b);
-            }
-            var result2 = builder.ToString();
-            if (result2 != result)
-                return result2;
-            return result;
-        }
-
-        private byte[] StringToBytes(string input)
-        {
-            var bytes = new byte[input.Length];
-            for(var i=0;i<input.Length;i++)
-            {
-                bytes[i] = (byte) input[i];
-            }
-            return bytes;
-        }
         /// <summary>
         /// Sets the checkbox value to true/false
         /// </summary>
@@ -812,21 +802,35 @@ namespace OnlineContentDownloader
             //Hide all the panels
             ShowSinglePanelHideOthers(null);
             PopulateChooseActionUI();
-            txtIdInventoryFromUserId.Text = Settings.Default.RecentUserName;
-            txtUrlExportFrom.Text = Settings.Default.RecentUrlExportFrom;
-            txtUrlImportTo.Text = Settings.Default.RecentUrlImportTo;
-            txtUrlInventoryFrom.Text = Settings.Default.RecentUrlInventoryFrom;
-            if(Settings.Default.SavePassword)
+            var settings = FileIOHelper.Deserialize<UserSettings>(UserSettings.DefaultFilename, ExceptionHandler);
+            if (settings != null)
             {
-                txtPasswordExportFrom.Text = Decrypt(Settings.Default.RecentPasswordExportFrom);
-                txtPasswordImportTo.Text = Decrypt(Settings.Default.RecentPasswordImportTo);
-                txtPasswordInventoryFrom.Text = Decrypt(Settings.Default.RecentPasswordInventoryFrom);
+                checkBoxRememberPassword.Checked = settings.SavePassword;
+                txtIdInventoryFromUserId.Text = settings.InventoryFrom?.UserId;
+                txtUrlInventoryFrom.Text = settings.InventoryFrom?.ServerUrl;
+
+                txtIdExportFrom.Text = settings.ExportFrom?.UserId;
+                txtUrlExportFrom.Text = settings.ExportFrom?.ServerUrl;
+
+                txtIdImportTo.Text = settings.ImportTo?.UserId;
+                txtUrlImportTo.Text = settings.ImportTo?.ServerUrl;
+
+                if (settings.SavePassword)
+                {
+                    txtPasswordExportFrom.Text = settings.ExportFrom?.UserPassword;
+                    txtPasswordImportTo.Text = settings.ImportTo?.UserPassword;
+                    txtPasswordInventoryFrom.Text = settings.InventoryFrom?.UserPassword;
+                }
             }
             if (_startupCommandLine != null)
             {
                 RunStartupCommandLine();
             }
+        }
 
+        private bool ExceptionHandler(object arg1, Exception arg2)
+        {
+            return true;
         }
 
         private const string ListAction_Default = "Choose an action";

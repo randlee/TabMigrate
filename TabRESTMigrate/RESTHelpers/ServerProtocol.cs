@@ -1,8 +1,11 @@
-﻿/// <summary>
-/// Does the server use HTTP or HTTPS
-/// </summary>
-public enum ServerProtocol
+﻿namespace TabRESTMigrate.RESTHelpers
 {
-    http,
-    https
+    /// <summary>
+    /// Does the server use HTTP or HTTPS
+    /// </summary>
+    public enum ServerProtocol
+    {
+        http,
+        https
+    }
 }

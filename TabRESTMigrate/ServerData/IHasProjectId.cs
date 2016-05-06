@@ -1,7 +1,10 @@
-﻿/// <summary>
-/// Object has a Project Id
-/// </summary>
-interface IHasProjectId
+﻿namespace TabRESTMigrate.ServerData
 {
-    string ProjectId  {get;}
+    /// <summary>
+    /// Object has a Project Id
+    /// </summary>
+    interface IHasProjectId
+    {
+        string ProjectId  {get;}
+    }
 }

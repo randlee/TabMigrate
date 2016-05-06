@@ -1,29 +1,31 @@
 ﻿using System.Xml;
 
-/// <summary>
-/// Helper functions for outputting Workbook (*.twb) and Datasource (*.tds) fles
-/// </summary>
-static class TableauPersistFileHelper
+namespace TabRESTMigrate.WorkbookTransforms
 {
-
     /// <summary>
-    /// Output an XML file in the format that Tableau expects
+    /// Helper functions for outputting Workbook (*.twb) and Datasource (*.tds) fles
     /// </summary>
-    /// <param name="xmlDoc"></param>
-    /// <param name="pathToOutput"></param>
-    public static void WriteTableauXmlFile(XmlDocument xmlDoc, string pathToOutput)
+    static class TableauPersistFileHelper
     {
-        //[2015-03-20]   Presently Server will error if it gets a TWB (XML) document uploaded that has a Byte Order Marker
-        //                  (this will however work if the TWB is within a TWBX).  
-        //                  To accomodate we need to write out XML without a BOM
-        var utf8_noBOM = new System.Text.UTF8Encoding(false);
-        using (var textWriter = new XmlTextWriter(pathToOutput, utf8_noBOM))                   
-        {
-            xmlDoc.WriteTo(textWriter);
-            textWriter.Close();
-        }
 
-        //Write out the modified XML
+        /// <summary>
+        /// Output an XML file in the format that Tableau expects
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="pathToOutput"></param>
+        public static void WriteTableauXmlFile(XmlDocument xmlDoc, string pathToOutput)
+        {
+            //[2015-03-20]   Presently Server will error if it gets a TWB (XML) document uploaded that has a Byte Order Marker
+            //                  (this will however work if the TWB is within a TWBX).  
+            //                  To accomodate we need to write out XML without a BOM
+            var utf8_noBOM = new System.Text.UTF8Encoding(false);
+            using (var textWriter = new XmlTextWriter(pathToOutput, utf8_noBOM))                   
+            {
+                xmlDoc.WriteTo(textWriter);
+                textWriter.Close();
+            }
+
+            //Write out the modified XML
 //        var textWriter = new XmlTextWriter(_pathToTwbOutput, Encoding.UTF8);  //[2015-03-20] FAILS in TWB uploads (works in TWBX uploads) because Server errrors if it hits the byte order marker
 //        var textWriter = new XmlTextWriter(_pathToTwbOutput, Encoding.ASCII); //[2015-03-20] Succeeds; but too limiting.  We want UTF-8
 //        using (textWriter)
@@ -31,6 +33,7 @@ static class TableauPersistFileHelper
 //            xmlDoc.WriteTo(textWriter);
 //            textWriter.Close();
 //        }
-    }
+        }
 
+    }
 }

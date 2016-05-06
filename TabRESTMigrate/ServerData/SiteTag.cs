@@ -1,34 +1,39 @@
 ﻿using System;
 using System.Xml;
-/// <summary>
-/// Information about a Tag
-/// </summary>
-class SiteTag
-{
-    public readonly string Label;
-    /// <summary>
-    /// Any developer/diagnostic notes we want to indicate
-    /// </summary>
-    public readonly string DeveloperNotes;
+using TabRESTMigrate.FilesLogging;
 
+namespace TabRESTMigrate.ServerData
+{
     /// <summary>
-    /// Constructor
+    /// Information about a Tag
     /// </summary>
-    /// <param name="userNode"></param>
-    public SiteTag(XmlNode tagNode)
+    class SiteTag
     {
-        if (tagNode.Name.ToLower() != "tag")
+        public readonly string Label;
+        /// <summary>
+        /// Any developer/diagnostic notes we want to indicate
+        /// </summary>
+        public readonly string DeveloperNotes;
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="userNode"></param>
+        public SiteTag(XmlNode tagNode)
         {
-            AppDiagnostics.Assert(false, "Not a tag");
-            throw new Exception("Unexpected content - not tag");
+            if (tagNode.Name.ToLower() != "tag")
+            {
+                AppDiagnostics.Assert(false, "Not a tag");
+                throw new Exception("Unexpected content - not tag");
+            }
+
+            this.Label = tagNode.Attributes["label"].Value;
         }
 
-        this.Label = tagNode.Attributes["label"].Value;
-    }
+        public override string ToString()
+        {
+            return "Tag: " + this.Label;
+        }
 
-    public override string ToString()
-    {
-        return "Tag: " + this.Label;
     }
-
 }

@@ -1,7 +1,10 @@
-﻿/// <summary>
-/// Object has a unique identity in the site
-/// </summary>
-interface IHasSiteItemId
+﻿namespace TabRESTMigrate.ServerData
 {
-    string Id  {get;}
+    /// <summary>
+    /// Object has a unique identity in the site
+    /// </summary>
+    interface IHasSiteItemId
+    {
+        string Id  {get;}
+    }
 }

@@ -1,9 +1,12 @@
-﻿static class AppDiagnostics
+﻿namespace TabRESTMigrate.FilesLogging
 {
-    public static void Assert(bool condition, string text)
+    static class AppDiagnostics
     {
-        if (condition) return;
+        public static void Assert(bool condition, string text)
+        {
+            if (condition) return;
 
-        System.Diagnostics.Debug.Assert(false, text);
+            System.Diagnostics.Debug.Assert(false, text);
+        }
     }
 }

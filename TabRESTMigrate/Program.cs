@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
+using TabRESTMigrate.TaskManager;
+using TabRESTMigrate.UI;
 
-namespace OnlineContentDownloader
+namespace TabRESTMigrate
 {
     static class Program
     {

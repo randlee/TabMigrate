@@ -1,35 +1,38 @@
 ﻿using System;
 using System.Xml;
 
-/// <summary>
-/// Helper functions for REST API functions that download lists
-/// </summary>
-static class DownloadPaginationHelper 
+namespace TabRESTMigrate.RESTHelpers
 {
     /// <summary>
-    /// Determine the # of pages we need to download from pagination data
+    /// Helper functions for REST API functions that download lists
     /// </summary>
-    /// <param name="xNodePagination"></param>
-    /// <param name="pageSize"></param>
-    /// <returns></returns>
-    public static int GetNumberOfPagesFromPagination(XmlNode xNodePagination, int pageSize)
+    static class DownloadPaginationHelper 
     {
-        //Sanity check
-        if(xNodePagination.Name != "pagination")
+        /// <summary>
+        /// Determine the # of pages we need to download from pagination data
+        /// </summary>
+        /// <param name="xNodePagination"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public static int GetNumberOfPagesFromPagination(XmlNode xNodePagination, int pageSize)
         {
-            throw new Exception("Internal error - expected XML 'pagination' node: " + xNodePagination.Name);
-        }
+            //Sanity check
+            if(xNodePagination.Name != "pagination")
+            {
+                throw new Exception("Internal error - expected XML 'pagination' node: " + xNodePagination.Name);
+            }
         
-        var totalItemsText = xNodePagination.Attributes["totalAvailable"].Value;
-        var totalItems = System.Convert.ToInt32(totalItemsText);
-        int numFullPages = totalItems / pageSize;
+            var totalItemsText = xNodePagination.Attributes["totalAvailable"].Value;
+            var totalItems = System.Convert.ToInt32(totalItemsText);
+            int numFullPages = totalItems / pageSize;
 
-        //If we have extra pages that don't align on a page boundary then add one
-        if ((totalItems % pageSize) > 0)
-        {
-            return numFullPages + 1;
+            //If we have extra pages that don't align on a page boundary then add one
+            if ((totalItems % pageSize) > 0)
+            {
+                return numFullPages + 1;
+            }
+
+            return numFullPages;
         }
-
-        return numFullPages;
     }
 }
