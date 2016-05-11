@@ -8,15 +8,15 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a Project in a Server's site
     /// </summary>
-    class SiteProject : IHasSiteItemId
+    public class SiteProject : IHasSiteItemId
     {
-        public readonly string Id;
-        public readonly string Name;
-        public readonly string Description;
+        public string Id { get; }
+        public string Name { get; }
+        public string Description { get; }
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         /// <summary>
         /// Constructor
@@ -32,37 +32,34 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not project");
             }
 
-            this.Id = projectNode.Attributes["id"].Value;
-            this.Name = projectNode.Attributes["name"].Value;
+            Id = projectNode.Attributes["id"].Value;
+            Name = projectNode.Attributes["name"].Value;
 
             var descriptionNode = projectNode.Attributes["description"];
             if(descriptionNode != null)
             {
-                this.Description = descriptionNode.Value;
+                Description = descriptionNode.Value;
             }
             else
             {
-                this.Description = "";
+                Description = "";
                 sbDevNotes.AppendLine("Project is missing description attribute");
             }
 
-            this.DeveloperNotes = sbDevNotes.ToString();
+            DeveloperNotes = sbDevNotes.ToString();
         }
 
         public SiteProject(string name, string Id)
         {
-            this.Name = name;
+            Name = name;
             this.Id = Id;
         }
 
         public override string ToString()
         {
-            return "Project: " + this.Name + "/" + this.Id;
+            return "Project: " + Name + "/" + Id;
         }
 
-        string IHasSiteItemId.Id
-        {
-            get { return this.Id; }
-        }
+        string IHasSiteItemId.Id => Id;
     }
 }

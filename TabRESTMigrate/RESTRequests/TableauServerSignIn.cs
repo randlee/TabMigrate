@@ -10,21 +10,19 @@ namespace TabRESTMigrate.RESTRequests
     /// <summary>
     /// Manages the signed in session for a Tableau Server site's sign in
     /// </summary>
-    class TableauServerSignIn : TableauServerRequestBase
+    public class TableauServerSignIn : TableauServerRequestBase
     {
         const string xmlLogIn = "<tsRequest>  <credentials name=\"{{iwsUserName}}\"    password=\"{{iwsPassword}}\" >  <site contentUrl=\"{{iwsSiteUrl}}\" /> </credentials></tsRequest>";
 
         private readonly TableauServerUrls _onlineUrls;
         private readonly string _userName;
         private readonly string _password;
-        public readonly string SiteUrlSegment;
+        public string SiteUrlSegment { get; }
         private string _logInCookies;
         private string _logInToken;
         private string _logInSiteId;
         private string _logInUserId;
-        public readonly TaskStatusLogs StatusLog;
-
-
+        public TaskStatusLogs StatusLog { get; }
 
         /// <summary>
         /// Synchronous call to test and make sure sign in works
@@ -63,34 +61,14 @@ namespace TabRESTMigrate.RESTRequests
             SiteUrlSegment = onlineUrls.SiteUrlSegement;
         }
 
-        public string LogInCookies
-        {
-            get
-            {
-                return _logInCookies;
-            }
-        }
-        public string LogInAuthToken
-        {
-            get
-            {
-                return _logInToken;
-            }
-        }
-        public string SiteId
-        {
-            get
-            {
-                return _logInSiteId;
-            }
-        }
-        public string UserId
-        {
-            get
-            {
-                return _logInUserId;
-            }
-        }
+        public string LogInCookies => _logInCookies;
+
+        public string LogInAuthToken => _logInToken;
+
+        public string SiteId => _logInSiteId;
+
+        public string UserId => _logInUserId;
+
         /// <summary>
         /// 
         /// </summary>
@@ -129,7 +107,7 @@ namespace TabRESTMigrate.RESTRequests
             catch(Exception exResponse)
             {
                 this.StatusLog.AddError("Error returned from sign in response: " + exResponse.ToString());
-                throw exResponse;
+                throw;
             }
 
             var allHeaders = response.Headers;
@@ -147,7 +125,7 @@ namespace TabRESTMigrate.RESTRequests
             catch (Exception exSignInResponse)
             {
                 this.StatusLog.AddError("Error returned from sign in xml response: " + exSignInResponse.ToString());
-                throw exSignInResponse;
+                throw;
             }
 
             var nsManager = XmlHelper.CreateTableauXmlNamespaceManager("iwsOnline");

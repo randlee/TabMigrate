@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using TabRESTMigrate.FilesLogging;
 using TabRESTMigrate.RESTHelpers;
@@ -79,12 +81,12 @@ namespace TabRESTMigrate.UI
         /// <returns></returns>
         private string GeneratePathFromSiteUrl(TableauServerUrls siteUrl)
         {
-            string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"TabMigrate");
+            var appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"TabMigrate");
             
             //Add the server name to the path
             appPath = Path.Combine(appPath, FileIOHelper.GenerateWindowsSafeFilename(siteUrl.ServerName));
             //Add the site name to the path
-            string siteName = siteUrl.SiteUrlSegement;
+            var siteName = siteUrl.SiteUrlSegement;
             if(!string.IsNullOrEmpty(siteName))
             {
                 appPath = Path.Combine(appPath, siteName);
@@ -111,7 +113,7 @@ namespace TabRESTMigrate.UI
             {
                 TableauServerSignIn.VerifySignInPossible(siteUrl, signInUser, signInPassword, testSignInStatusLog);
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Sign in to your Tableau Server failed. Please check URL and credentials");
                 textBoxStatus.Text = testSignInStatusLog.StatusText;
@@ -128,19 +130,18 @@ namespace TabRESTMigrate.UI
         /// <returns></returns>
         private TaskMaster CreateAsyncExportTask(bool showPasswordInUi)
         {
-            string siteUrl = txtUrlExportFrom.Text;
-            string signInUser = txtIdExportFrom.Text;
-            string signInPassword = txtPasswordExportFrom.Text;
-            bool isSystemAdmin = chkExportUserIsAdmin.Checked;
-            string exportOnlySingleProject = txtExportSingleProject.Text.Trim();
-            string exportOnlyWithTag = txtExportOnlyTagged.Text.Trim();
-
+            var siteUrl = txtUrlExportFrom.Text;
+            var signInUser = txtIdExportFrom.Text;
+            var signInPassword = txtPasswordExportFrom.Text;
+            var isSystemAdmin = chkExportUserIsAdmin.Checked;
+            var exportOnlySingleProject = txtExportSingleProject.Text.Trim();
+            var exportOnlyWithTag = txtExportOnlyTagged.Text.Trim();
 
             //----------------------------------------------------------------------
             //Sanity test the sign in.  If this fails, then there is no point in 
             //moving forward
             //----------------------------------------------------------------------
-            bool signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
+            var signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
             if (!signInTest)
             {
                 return null;
@@ -150,15 +151,15 @@ namespace TabRESTMigrate.UI
 
             var nowTime = DateTime.Now;
             //Local path
-            string localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
+            var localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
             localPathForSiteOutput = FileIOHelper.PathDateTimeSubdirectory(localPathForSiteOutput, true, "siteExport", nowTime);
 
             //Log file
-            string localPathForLogFile =
+            var localPathForLogFile =
                 Path.Combine(localPathForSiteOutput, "siteExport_log.txt");
 
             //Errors file
-            string localPathForErrorsFile =
+            var localPathForErrorsFile =
                 Path.Combine(localPathForSiteOutput, "siteExport_errors.txt");
 
             //-----------------------------------------------------------------
@@ -189,7 +190,6 @@ namespace TabRESTMigrate.UI
             //Create the task
             //=====================================================================
             return TaskMaster.FromCommandLine(commandLineParsed);
-
         }
 
 
@@ -199,11 +199,11 @@ namespace TabRESTMigrate.UI
         /// <returns></returns>
         private TaskMaster CreateAsyncImportTask(bool showPasswordInUi)
         {
-            string siteUrl = txtUrlImportTo.Text;
-            string signInUser = txtIdImportTo.Text;
-            string signInPassword = txtPasswordImportTo.Text;
-            bool isSystemAdmin = chkImportIsSystemAdmin.Checked;
-            string localPathImportFrom = txtSiteImportContentPath.Text;
+            var siteUrl = txtUrlImportTo.Text;
+            var signInUser = txtIdImportTo.Text;
+            var signInPassword = txtPasswordImportTo.Text;
+            var isSystemAdmin = chkImportIsSystemAdmin.Checked;
+            var localPathImportFrom = txtSiteImportContentPath.Text;
 
             //Check that this contains Workbooks or Data Sources; otherwise it's not a valid path with content
             if(!TaskMaster.IsValidImportFromDirectory(localPathImportFrom))
@@ -212,7 +212,7 @@ namespace TabRESTMigrate.UI
             }
 
             //If there is a DB credentials file path make sure it actually points to a file
-            string pathDBCredentials = GetDBCredentialsImportPath();
+            var pathDBCredentials = GetDBCredentialsImportPath();
             if(!string.IsNullOrWhiteSpace(pathDBCredentials))
             {
                 if(!File.Exists(pathDBCredentials))
@@ -225,7 +225,7 @@ namespace TabRESTMigrate.UI
             //Sanity test the sign in.  If this fails, then there is no point in 
             //moving forward
             //----------------------------------------------------------------------
-            bool signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
+            var signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
             if (!signInTest)
             {
                 return null;
@@ -234,26 +234,26 @@ namespace TabRESTMigrate.UI
             var onlineUrls = TableauServerUrls.FromContentUrl(siteUrl, TaskMasterOptions.RestApiReponsePageSizeDefault);
 
             //Local path
-            string localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
+            var localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
 
             //Output file
             var nowTime = DateTime.Now;
-            string localPathForOutputFile =
+            var localPathForOutputFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteImport.csv", nowTime));
 
             //Log file
-            string localPathForLogFile =
+            var localPathForLogFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteImport_log.txt", nowTime));
 
             //Errors file
-            string localPathForErrorsFile =
+            var localPathForErrorsFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteImport_errors.txt", nowTime));
 
             //Manual steps file
-            string localPathForManualStepsFile =
+            var localPathForManualStepsFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteImport_manualSteps.csv", nowTime));
 
@@ -294,17 +294,17 @@ namespace TabRESTMigrate.UI
         /// </summary>
         private TaskMaster CreateAsyncInventoryTask(bool showPasswordInUi)
         {
-            string siteUrl = txtUrlInventoryFrom.Text;
-            string signInUser = txtIdInventoryFromUserId.Text;
-            string signInPassword = txtPasswordInventoryFrom.Text;
-            bool isSystemAdmin = chkInventoryUserIsSystemAdmin.Checked;
+            var siteUrl = txtUrlInventoryFrom.Text;
+            var signInUser = txtIdInventoryFromUserId.Text;
+            var signInPassword = txtPasswordInventoryFrom.Text;
+            var isSystemAdmin = chkInventoryUserIsSystemAdmin.Checked;
             var nowTime = DateTime.Now;
 
             //----------------------------------------------------------------------
             //Sanity test the sign in.  If this fails, then there is no point in 
             //moving forward
             //----------------------------------------------------------------------
-            bool signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
+            var signInTest = ValidateSignInPossible(siteUrl, signInUser, signInPassword);
             if(!signInTest)
             {
                 return null;
@@ -313,20 +313,20 @@ namespace TabRESTMigrate.UI
             var onlineUrls = TableauServerUrls.FromContentUrl(siteUrl, TaskMasterOptions.RestApiReponsePageSizeDefault);
 
             //Local path
-            string localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
+            var localPathForSiteOutput = GeneratePathFromSiteUrl(onlineUrls);
 
             //Output file
-            string localPathForOutputFile = 
+            var localPathForOutputFile = 
                 Path.Combine(localPathForSiteOutput, 
                              FileIOHelper.FilenameWithDateTimeUnique("siteInventory.csv", nowTime));
 
             //Log file
-            string localPathForLogFile =
+            var localPathForLogFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteInventory_log.txt", nowTime));
 
             //Errors file
-            string localPathForErrorsFile =
+            var localPathForErrorsFile =
                 Path.Combine(localPathForSiteOutput,
                              FileIOHelper.FilenameWithDateTimeUnique("siteInventory_errors.txt", nowTime));
 
@@ -452,7 +452,7 @@ namespace TabRESTMigrate.UI
 
             //Update normal status
             //Get the status from the backtround task
-            string statusTextRuning = taskMaster.StatusLog.StatusText;
+            var statusTextRuning = taskMaster.StatusLog.StatusText;
             statusTextRuning = DateTime.Now.ToString() + ": Running...\r\nsteps \r\n" + statusTextRuning;
             //Scroll to bottom
             textBoxStatus.Text = statusTextRuning;
@@ -477,10 +477,10 @@ namespace TabRESTMigrate.UI
         void AsyncTaskDone_Reporting(TaskMaster taskMaster)
         {
             //Get the status from the backtround task
-            string statusText = taskMaster.StatusLog.StatusText;
+            var statusText = taskMaster.StatusLog.StatusText;
 
-            string errorCountText = "";
-            int errorCount = taskMaster.StatusLog.ErrorCount;
+            var errorCountText = "";
+            var errorCount = taskMaster.StatusLog.ErrorCount;
             if (errorCount > 0)
             {
                 errorCountText = " " + errorCount.ToString() + " errors";
@@ -503,7 +503,7 @@ namespace TabRESTMigrate.UI
             if (taskMaster.JobName == TaskMaster.JobName_SiteInventory)
             {
                 //First, see if we have a generated *.twb file
-                string inventoryFile = taskMaster.PathToSiteInventoryReportTwb;
+                var inventoryFile = taskMaster.PathToSiteInventoryReportTwb;
                 //Second, if we don't have a *.twb file, see if we have a *.csv file of the raw data
                 if(string.IsNullOrWhiteSpace(inventoryFile))
                 {
@@ -519,7 +519,7 @@ namespace TabRESTMigrate.UI
             else if(taskMaster.JobName == TaskMaster.JobName_SiteExport)
             {
                 //We want to shell the file explorer to show the path we have just exported to
-                string exportDirectory = taskMaster.PathToExportTo;
+                var exportDirectory = taskMaster.PathToExportTo;
                 if(!string.IsNullOrWhiteSpace(exportDirectory))
                 {
                     AttemptToShellFile(Path.Combine(exportDirectory, "."));
@@ -586,34 +586,12 @@ namespace TabRESTMigrate.UI
             }
             finally
             {
-                var settings = new UserSettings
-                {
-                    SavePassword = checkBoxRememberPassword.Checked,
-                    InventoryFrom =
-                    {
-                        UserId = txtIdInventoryFromUserId.Text,
-                        ServerUrl = txtUrlInventoryFrom.Text
-                    },
-                    ExportFrom =
-                    {
-                        UserId = txtIdExportFrom.Text,
-                        ServerUrl = txtUrlExportFrom.Text
-                    },
-                    ImportTo =
-                    {
-                        UserId = txtIdImportTo.Text,
-                        ServerUrl = txtUrlImportTo.Text
-                    }
-                };
-                if (settings.SavePassword)
-                {
-                    settings.ExportFrom.UserPassword = txtPasswordExportFrom.Text;
-                    settings.ImportTo.UserPassword = txtPasswordImportTo.Text;
-                    settings.InventoryFrom.UserPassword = txtPasswordInventoryFrom.Text;
-                }
+                var settings = new UserSettings();
+                UpdateSettings(_inventoryControls,settings.InventoryFrom);
+                UpdateSettings(_importControls, settings.ImportTo);
+                UpdateSettings(_exportControls, settings.ExportFrom);
 
                 FileIOHelper.Serialize(settings, UserSettings.DefaultFilename, ExceptionHandler);
-                //Application.Exit();
             }
         }
 
@@ -635,7 +613,6 @@ namespace TabRESTMigrate.UI
                 System.Diagnostics.Debug.Assert(value == "false", "Expected true or false");
                 chkbox.Checked = false;
             }
-
         }
 
         /// <summary>
@@ -782,7 +759,7 @@ namespace TabRESTMigrate.UI
         /// <returns></returns>
         private string GetDBCredentialsImportPath()
         {
-            string dbCrendentialsPath = txtDBCredentialsImport.Text.Trim();
+            var dbCrendentialsPath = txtDBCredentialsImport.Text.Trim();
             if(dbCrendentialsPath != DefaultTextDBCredentialsImport)
             {
                 return dbCrendentialsPath;
@@ -802,34 +779,125 @@ namespace TabRESTMigrate.UI
             //Hide all the panels
             ShowSinglePanelHideOthers(null);
             PopulateChooseActionUI();
-            var settings = FileIOHelper.Deserialize<UserSettings>(UserSettings.DefaultFilename, ExceptionHandler);
-            if (settings != null)
-            {
-                checkBoxRememberPassword.Checked = settings.SavePassword;
-                txtIdInventoryFromUserId.Text = settings.InventoryFrom?.UserId;
-                txtUrlInventoryFrom.Text = settings.InventoryFrom?.ServerUrl;
 
-                txtIdExportFrom.Text = settings.ExportFrom?.UserId;
-                txtUrlExportFrom.Text = settings.ExportFrom?.ServerUrl;
-
-                txtIdImportTo.Text = settings.ImportTo?.UserId;
-                txtUrlImportTo.Text = settings.ImportTo?.ServerUrl;
-
-                if (settings.SavePassword)
-                {
-                    txtPasswordExportFrom.Text = settings.ExportFrom?.UserPassword;
-                    txtPasswordImportTo.Text = settings.ImportTo?.UserPassword;
-                    txtPasswordInventoryFrom.Text = settings.InventoryFrom?.UserPassword;
-                }
-            }
+            LoadSettings(UserSettings.DefaultFilename);
             if (_startupCommandLine != null)
             {
                 RunStartupCommandLine();
             }
         }
 
-        private bool ExceptionHandler(object arg1, Exception arg2)
+        private Dictionary<string, Control> _inventoryControls;
+        private Dictionary<string, Control> _exportControls;
+        private Dictionary<string, Control> _importControls;
+
+        private void LoadSettings(string path)
         {
+            var settings = FileIOHelper.Deserialize<UserSettings>(path, ExceptionHandler);
+            if (settings == null) return;
+            if (_inventoryControls == null) CreateControlDictionaries();
+            UpdateControls(_inventoryControls, settings.InventoryFrom);
+            UpdateControls(_importControls,settings.ImportTo);
+            UpdateControls(_exportControls,settings.ExportFrom);
+        }
+
+        private void CreateControlDictionaries()
+        {
+            _inventoryControls = new Dictionary<string, Control>();
+            {
+                _inventoryControls.Add(nameof(InventoryUserSettings.SavePassword), chkInventoryRememberPassword);
+                _inventoryControls.Add(nameof(InventoryUserSettings.UserIsAdmin), chkInventoryUserIsSystemAdmin);
+                _inventoryControls.Add(nameof(InventoryUserSettings.UserId), txtIdInventoryFromUserId);
+                _inventoryControls.Add(nameof(InventoryUserSettings.ServerUrl), txtUrlInventoryFrom);
+                _inventoryControls.Add(nameof(InventoryUserSettings.UserPassword), txtPasswordInventoryFrom);
+                // Inventory specific properties
+                _inventoryControls.Add(nameof(InventoryUserSettings.GenerateTableauWorkbook), chkGenerateInventoryTwb);
+                DebugValidateControlDictionaries<InventoryUserSettings>(_inventoryControls);
+            };
+            _importControls = new Dictionary<string, Control>();
+            {
+                _importControls.Add(nameof(UploadUserSettings.SavePassword), chkImportRememberPassword);
+                _importControls.Add(nameof(UploadUserSettings.UserIsAdmin), chkImportIsSystemAdmin);
+                _importControls.Add(nameof(UploadUserSettings.UserId), txtIdImportTo);
+                _importControls.Add(nameof(UploadUserSettings.ServerUrl), txtUrlImportTo);
+                _importControls.Add(nameof(UploadUserSettings.UserPassword), txtPasswordImportTo);
+                // Import specific properties
+                _importControls.Add(nameof(UploadUserSettings.DatabaseCredentialsPath), txtDBCredentialsImport);
+                _importControls.Add(nameof(UploadUserSettings.RemapServerReferences), chkRemapWorkbookDataserverReferences);
+                DebugValidateControlDictionaries<UploadUserSettings>(_importControls);
+            };
+            _exportControls = new Dictionary<string, Control>();
+            {
+                _exportControls.Add(nameof(ExportUserSettings.SavePassword), chkExportRememberPassword);
+                _exportControls.Add(nameof(ExportUserSettings.UserIsAdmin), chkExportUserIsAdmin);
+                _exportControls.Add(nameof(ExportUserSettings.UserId), txtIdExportFrom);
+                _exportControls.Add(nameof(ExportUserSettings.ServerUrl), txtUrlExportFrom);
+                _exportControls.Add(nameof(ExportUserSettings.UserPassword), txtPasswordExportFrom);
+                // Export specific propererties
+                _exportControls.Add(nameof(ExportUserSettings.RemoveTagWhenExporting), chkExportRemoveExportTag);
+                _exportControls.Add(nameof(ExportUserSettings.ExportTag), txtExportOnlyTagged);
+                _exportControls.Add(nameof(ExportUserSettings.ExportProject), txtExportSingleProject);
+                DebugValidateControlDictionaries<ExportUserSettings>(_exportControls);
+            }
+        }
+
+        [Conditional("DEBUG")]
+        private static void DebugValidateControlDictionaries<T>(Dictionary<string,Control> dictionary )
+        {
+            foreach(var key in dictionary.Keys)
+            {
+                var properties = typeof(T).GetProperties().Where(p => p.Name == key).ToArray();
+
+                if (properties.Length == 0) throw new Exception($"{typeof(T)} dictionary references missing property '{key}'");
+                if (properties.Length > 1) throw new Exception($"{typeof(T)} dictionary references property '{key}' multiple times!");
+            }
+            foreach (var property in typeof(T).GetProperties())
+            {
+                if (!dictionary.Keys.Contains(property.Name))
+                    throw new Exception($"Missing key '{property.Name}' in dictionary {typeof(T)}");
+            }
+        }
+
+        private static void UpdateControls(Dictionary<string, Control> controls, UserCredentials property)
+        {
+            foreach (var key in controls.Keys)
+            {
+                var check = controls[key] as CheckBox;
+                if (check != null)
+                {
+                    check.Checked = (bool) property.GetType().GetProperty(key).GetValue(property);
+                    continue;
+                }
+                var textBox = controls[key] as TextBox;
+                if (textBox != null)
+                {
+                    textBox.Text = (string) property.GetType().GetProperty(key).GetValue(property);
+                }
+            }
+        }
+
+        private static void UpdateSettings(Dictionary<string, Control> controls, UserCredentials property)
+        {
+            foreach (var key in controls.Keys)
+            {
+                var check = controls[key] as CheckBox;
+                if (check != null)
+                {
+                    property.GetType().GetProperty(key).SetValue(property,check.Checked);
+                    continue;
+                }
+                var textBox = controls[key] as TextBox;
+                if (textBox != null)
+                {
+                     property.GetType().GetProperty(key).SetValue(property, textBox.Text);
+                }
+            }
+            if (!property.SavePassword) property.UserPassword = Guid.NewGuid().ToString();
+        }
+
+        private bool ExceptionHandler(object arg1, Exception exc)
+        {
+            MessageBox.Show(this, exc.Message, "Exception");
             return true;
         }
 
@@ -869,7 +937,7 @@ namespace TabRESTMigrate.UI
 
         private void comboBoxChooseAction_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string selectedAction = comboBoxChooseAction.Text;
+            var selectedAction = comboBoxChooseAction.Text;
             if(selectedAction == ListAction_Inventory)
             {
                 panelInventorySite.Height = txtInventoryExampleCommandLine.Bottom + 10;
@@ -894,8 +962,7 @@ namespace TabRESTMigrate.UI
         private void btnLinkExportSiteCommandLine_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
-            {
-                //Create it, but don't run it...
+            {   //Create it, but don't run it...
                 CreateAsyncExportTask(true);
             }
             catch (Exception ex)
@@ -929,8 +996,7 @@ namespace TabRESTMigrate.UI
         private void btnLinkImportCommandLine_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
-            {
-                //Create the task but don't set it running
+            {   //Create the task but don't set it running
                 var asyncTask = CreateAsyncImportTask(true);
             }
             catch (Exception ex)
@@ -938,7 +1004,5 @@ namespace TabRESTMigrate.UI
                 MessageBox.Show("Error conifiguring import:" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Management class for customer actions 
     /// </summary>
-    class CustomerManualActionManager : CsvDataGenerator
+    public class CustomerManualActionManager : CsvDataGenerator
     {
   
     }

@@ -8,97 +8,96 @@ namespace TabRESTMigrate.RESTHelpers
     /// <summary>
     /// Creates the set of server specific URLs
     /// </summary>
-    class TableauServerUrls : ITableauServerSiteInfo
+    public class TableauServerUrls : ITableauServerSiteInfo
     {
         private readonly ServerVersion _serverVersion;
         /// <summary>
         /// What version of Server do we thing we are talking to? (URLs and APIs may differ)
         /// </summary>
-        public ServerVersion ServerVersion
-        {
-            get
-            {
-                return _serverVersion;
-            }
-        }
+        public ServerVersion ServerVersion => _serverVersion;
 
         /// <summary>
         /// Url for API login
         /// </summary>
-        public readonly string UrlLogin;
+        public string UrlLogin { get; }
 
         /// <summary>
         /// Template for URL to acess workbooks list
         /// </summary>
-        private readonly string _urlListWorkbooksForUserTemplate;
-        private readonly string _urlListWorkbookConnectionsTemplate;
-        private readonly string _urlListDatasourcesTemplate;
-        private readonly string _urlListProjectsTemplate;
-        private readonly string _urlListGroupsTemplate;
-        private readonly string _urlListUsersTemplate;
-        private readonly string _urlListUsersInGroupTemplate;
-        private readonly string _urlDownloadWorkbookTemplate;
-        private readonly string _urlDownloadDatasourceTemplate;
-        private readonly string _urlSiteInfoTemplate;
-        private readonly string _urlInitiateUploadTemplate;
-        private readonly string _urlAppendUploadChunkTemplate;
-        private readonly string _urlFinalizeUploadDatasourceTemplate;
-        private readonly string _urlFinalizeUploadWorkbookTemplate;
-        private readonly string _urlCreateProjectTemplate;
-        private readonly string _urlDeleteWorkbookTagTemplate;
-        private readonly string _urlDeleteDatasourceTagTemplate;
+        private string _urlListWorkbooksForUserTemplate { get; }
+        private string _urlListWorkbookConnectionsTemplate { get; }
+        private string _urlListDatasourcesTemplate { get; }
+        private string _urlListProjectsTemplate { get; }
+        private string _urlListGroupsTemplate { get; }
+        private string _urlListUsersTemplate { get; }
+        private string _urlListUsersInGroupTemplate { get; }
+        private string _urlDownloadWorkbookTemplate { get; }
+        private string _urlDownloadDatasourceTemplate { get; }
+        private string _urlSiteInfoTemplate { get; }
+        private string _urlInitiateUploadTemplate { get; }
+        private string _urlAppendUploadChunkTemplate { get; }
+        private string _urlFinalizeUploadDatasourceTemplate { get; }
+        private string _urlFinalizeUploadWorkbookTemplate { get; }
+        private string _urlCreateProjectTemplate { get; }
+        private string _urlDeleteWorkbookTagTemplate { get; }
+        private string _urlDeleteDatasourceTagTemplate { get; }
 
         /// <summary>
         /// Server url with protocol
         /// </summary>
-        public readonly string ServerUrlWithProtocol;
-        public readonly string ServerProtocol;
+        public string ServerUrlWithProtocol { get; }
+        public string ServerProtocol { get; }
 
         /// <summary>
         /// Part of the URL that designates the site id
         /// </summary>
-        public readonly string SiteUrlSegement;
+        public string SiteUrlSegement { get; }
 
-        public readonly string ServerName;
+        public string ServerName { get; }
 
-        public readonly int PageSize = 1000;
+        public int PageSize = 1000;
         public const int UploadFileChunkSize = 8000000; //8MB
+
+        public const string 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="serverNameWithProtocol"></param>
+        /// <param name="protocol"></param>
+        /// <param name="serverName"></param>
         /// <param name="siteUrlSegment"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="serverVersion"></param>
         public TableauServerUrls(string protocol, string serverName, string siteUrlSegment, int pageSize, ServerVersion serverVersion)
         {
             //Cannonicalize the protocol
             protocol = protocol.ToLower();
 
-            this.ServerProtocol = protocol;
+            ServerProtocol = protocol;
 
-            this.PageSize = pageSize;
+            PageSize = pageSize;
             string serverNameWithProtocol = protocol + serverName;
-            this._serverVersion = serverVersion;
-            this.SiteUrlSegement = siteUrlSegment;
-            this.ServerName = serverName;
-            this.ServerUrlWithProtocol                 = serverNameWithProtocol;
-            this.UrlLogin                              = serverNameWithProtocol + "/api/2.0/auth/signin";
-            this._urlListWorkbooksForUserTemplate      = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/users/{{iwsUserId}}/workbooks?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            this._urlListWorkbookConnectionsTemplate   = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/connections";
-            this._urlListDatasourcesTemplate           = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/datasources?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            this._urlListProjectsTemplate              = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/projects?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            this._urlListGroupsTemplate                = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/groups?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            this._urlListUsersTemplate                 = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            this._urlListUsersInGroupTemplate          = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/groups/{{iwsGroupId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}"; 
-            this._urlDownloadDatasourceTemplate        = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsRepositoryId}}/content";
-            this._urlDownloadWorkbookTemplate          = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsRepositoryId}}/content";
-            this._urlSiteInfoTemplate                  = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}";
-            this._urlInitiateUploadTemplate            = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/fileUploads";
-            this._urlAppendUploadChunkTemplate         = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/fileUploads/{{iwsUploadSession}}";
-            this._urlFinalizeUploadDatasourceTemplate  = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/datasources?uploadSessionId={{iwsUploadSession}}&datasourceType={{iwsDatasourceType}}&overwrite=true";
-            this._urlFinalizeUploadWorkbookTemplate    = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/workbooks?uploadSessionId={{iwsUploadSession}}&workbookType={{iwsWorkbookType}}&overwrite=true";
-            this._urlCreateProjectTemplate             = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/projects";
-            this._urlDeleteWorkbookTagTemplate         = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/tags/{{iwsTagText}}";
-            this._urlDeleteDatasourceTagTemplate       = serverNameWithProtocol + "/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsDatasourceId}}/tags/{{iwsTagText}}";
+            _serverVersion = serverVersion;
+            SiteUrlSegement = siteUrlSegment;
+            ServerName = serverName;
+            ServerUrlWithProtocol                 = serverNameWithProtocol;
+            UrlLogin                              = $"{serverNameWithProtocol}/api/2.0/auth/signin";
+            _urlListWorkbooksForUserTemplate      = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/users/{{iwsUserId}}/workbooks?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
+            _urlListWorkbookConnectionsTemplate   = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/connections";
+            _urlListDatasourcesTemplate           = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
+            _urlListProjectsTemplate              = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/projects?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
+            _urlListGroupsTemplate                = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/groups?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
+            _urlListUsersTemplate                 = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
+            _urlListUsersInGroupTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/groups/{{iwsGroupId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}"; 
+            _urlDownloadDatasourceTemplate        = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsRepositoryId}}/content";
+            _urlDownloadWorkbookTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsRepositoryId}}/content";
+            _urlSiteInfoTemplate                  = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}";
+            _urlInitiateUploadTemplate            = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/fileUploads";
+            _urlAppendUploadChunkTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/fileUploads/{{iwsUploadSession}}";
+            _urlFinalizeUploadDatasourceTemplate  = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources?uploadSessionId={{iwsUploadSession}}&datasourceType={{iwsDatasourceType}}&overwrite=true";
+            _urlFinalizeUploadWorkbookTemplate    = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks?uploadSessionId={{iwsUploadSession}}&workbookType={{iwsWorkbookType}}&overwrite=true";
+            _urlCreateProjectTemplate             = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/projects";
+            _urlDeleteWorkbookTagTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/tags/{{iwsTagText}}";
+            _urlDeleteDatasourceTagTemplate       = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsDatasourceId}}/tags/{{iwsTagText}}";
 
             //Any server version specific things we want to do?
             switch (serverVersion)
@@ -117,7 +116,7 @@ namespace TabRESTMigrate.RESTHelpers
         private static string GetProtocolFromUrl(string url)
         {
             const string protocolIndicator = "://";
-            int idxProtocol = url.IndexOf(protocolIndicator);
+            var idxProtocol = url.IndexOf(protocolIndicator);
             if(idxProtocol < 1)
             {
                 throw new Exception("No protocol found in " + url);
@@ -475,7 +474,7 @@ namespace TabRESTMigrate.RESTHelpers
         {
             get 
             {
-                return this.ServerName; 
+                return ServerName; 
             }
         }
 
@@ -483,9 +482,9 @@ namespace TabRESTMigrate.RESTHelpers
         {
             get 
             {
-                if (this.ServerProtocol == "https://") return global::TabRESTMigrate.RESTHelpers.ServerProtocol.https;
-                if (this.ServerProtocol == "http://") return global::TabRESTMigrate.RESTHelpers.ServerProtocol.http;
-                throw new Exception("Unknown protocol " + this.ServerProtocol);
+                if (ServerProtocol == "https://") return RESTHelpers.ServerProtocol.https;
+                if (ServerProtocol == "http://") return RESTHelpers.ServerProtocol.http;
+                throw new Exception("Unknown protocol " + ServerProtocol);
             }
         }
 
@@ -493,7 +492,7 @@ namespace TabRESTMigrate.RESTHelpers
         {
             get 
             {
-                return this.SiteUrlSegement;
+                return SiteUrlSegement;
             }
         }
 
@@ -501,7 +500,7 @@ namespace TabRESTMigrate.RESTHelpers
         {
             get
             {
-                return this.ServerUrlWithProtocol;
+                return ServerUrlWithProtocol;
             }
         }
 

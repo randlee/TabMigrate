@@ -9,16 +9,16 @@ namespace TabRESTMigrate.ServerData
     /// </summary>
     class SiteinfoSite
     {
-        public readonly string Id;
-        public readonly string Name;
-        public readonly string ContentUrl;
-        public readonly string AdminMode;
-        public readonly string State;
+        public string Id { get; }
+        public string Name { get; }
+        public string ContentUrl { get; }
+        public string AdminMode { get; }
+        public string State { get; }
 
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         public SiteinfoSite(XmlNode content)
         {
@@ -28,11 +28,11 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not site");
             }
 
-            this.Name = content.Attributes["name"].Value;
-            this.Id = content.Attributes["id"].Value;
-            this.ContentUrl = content.Attributes["contentUrl"].Value;
-            this.AdminMode = content.Attributes["adminMode"].Value;
-            this.State = content.Attributes["state"].Value;
+            Name = content.Attributes["name"].Value;
+            Id = content.Attributes["id"].Value;
+            ContentUrl = content.Attributes["contentUrl"].Value;
+            AdminMode = content.Attributes["adminMode"].Value;
+            State = content.Attributes["state"].Value;
         }
     }
 }

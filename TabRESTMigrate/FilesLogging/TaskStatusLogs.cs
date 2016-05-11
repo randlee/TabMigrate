@@ -3,10 +3,10 @@
     /// <summary>
     /// Records errors during runs
     /// </summary>
-    class TaskStatusLogs
+    public class TaskStatusLogs
     {
-        Logger _statusLog = new Logger();
-        Logger _errorLog = new Logger();
+        public Logger StatusLog { get; } = new Logger();
+        public Logger ErrorLog { get; } = new Logger();
         private int _minimumStatusLevel = 0;
 
         public void SetStatusLoggingLevel(int statusLevel)
@@ -14,13 +14,7 @@
             _minimumStatusLevel = statusLevel;
         }
 
-        public string StatusText
-        {
-            get
-            {
-                return _statusLog.StatusText;
-            }
-        }
+        public string StatusText => StatusLog.StatusText;
 
         /// <summary>
         /// Add a header/splitter line
@@ -40,29 +34,18 @@
                 string prefixText = "";
                 if (statusLevel < 0) { prefixText = "     "; }
 
-                _statusLog.AddStatus(prefixText + statusText);
+                StatusLog.AddStatus(prefixText + statusText);
             }
         }
 
-        public int ErrorCount
-        {
-            get
-            {
-                return _errorLog.Count;
-            }
-        }
-        public string ErrorText
-        {
-            get
-            {
-                return _errorLog.StatusText;
-            }
-        }
+        public int ErrorCount => ErrorLog.Count;
+
+        public string ErrorText => ErrorLog.StatusText;
 
         public void AddError(string errorText)
         {
-            _statusLog.AddStatus("Error: " + errorText);
-            _errorLog.AddStatus(errorText);
+            StatusLog.AddStatus("Error: " + errorText);
+            ErrorLog.AddStatus(errorText);
         }
     }
 }

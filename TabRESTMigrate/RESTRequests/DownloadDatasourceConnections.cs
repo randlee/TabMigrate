@@ -21,21 +21,14 @@ namespace TabRESTMigrate.RESTRequests
         /// Workbooks we've parsed from server results
         /// </summary>
         private List<SiteConnection> _connections;
-        public ICollection<SiteConnection> Connections
-        {
-            get
-            {
-                var connections = _connections;
-                if (connections == null) return null;
-                return connections.AsReadOnly();
-            }
-        }
+        public ICollection<SiteConnection> Connections => _connections?.AsReadOnly();
 
         /// <summary>
         /// Constructor: Call when we want to query the datasource on behalf of the currently logged in user
         /// </summary>
         /// <param name="onlineUrls"></param>
         /// <param name="login"></param>
+        /// <param name="datasourceId"></param>
         public DownloadDatasourceConnections(TableauServerUrls onlineUrls, TableauServerSignIn login, string datasourceId)
             : base(login)
         {
@@ -47,17 +40,16 @@ namespace TabRESTMigrate.RESTRequests
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="serverName"></param>
         public void ExecuteRequest()
         {
             var dsConnections = new List<SiteConnection>();
 
             //Create a web request, in including the users logged-in auth information in the request headers
-            var urlQuery = _onlineUrls.Url_DatasourceConnectionsList(_onlineSession, _datasourceId);
+            var urlQuery = _onlineUrls.Url_DatasourceConnectionsList(OnlineSession, _datasourceId);
             var webRequest = CreateLoggedInWebRequest(urlQuery);
             webRequest.Method = "GET";
 
-            _onlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
+            OnlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
             var response = GetWebReponseLogErrors(webRequest, "get datasources's connections list");
             var xmlDoc = GetWebResponseAsXml(response);
 
@@ -76,7 +68,7 @@ namespace TabRESTMigrate.RESTRequests
                 catch
                 {
                     AppDiagnostics.Assert(false, "Workbook  connections parse error");
-                    _onlineSession.StatusLog.AddError("Error parsing workbook: " + itemXml.InnerXml);
+                    OnlineSession.StatusLog.AddError("Error parsing workbook: " + itemXml.InnerXml);
                 }
             } //end: foreach
 

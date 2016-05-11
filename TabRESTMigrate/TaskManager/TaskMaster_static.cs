@@ -5,7 +5,7 @@ using TabRESTMigrate.RESTHelpers;
 //Holds the static functions
 namespace TabRESTMigrate.TaskManager
 {
-    internal partial class TaskMaster
+    public partial class TaskMaster
     {
         //Names we assoicated with async jobs
         public const string JobName_SiteImport = "SiteImportJob";

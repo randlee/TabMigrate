@@ -23,7 +23,7 @@ namespace TabRESTMigrate.RESTHelpers
             }
         
             var totalItemsText = xNodePagination.Attributes["totalAvailable"].Value;
-            var totalItems = System.Convert.ToInt32(totalItemsText);
+            var totalItems = Convert.ToInt32(totalItemsText);
             int numFullPages = totalItems / pageSize;
 
             //If we have extra pages that don't align on a page boundary then add one

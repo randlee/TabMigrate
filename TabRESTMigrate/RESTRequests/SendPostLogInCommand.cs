@@ -43,7 +43,7 @@ namespace TabRESTMigrate.RESTRequests
             webRequest.Method = "GET";
 
             //Request the data from server
-            _onlineSession.StatusLog.AddStatus("Custom web request: " + url, -10);
+            OnlineSession.StatusLog.AddStatus("Custom web request: " + url, -10);
             var response = GetWebReponseLogErrors(webRequest, "custom request");
         
             var responseText = GetWebResponseAsText(response);

@@ -9,12 +9,12 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a Datasource in a Server's site
     /// </summary>
-    class SiteDatasource : SiteDocumentBase, IEditDataConnectionsSet
+    public class SiteDatasource : SiteDocumentBase, IEditDataConnectionsSet
     {
         /// <summary>
         /// The underlying source of the data (e.g. SQL Server? MySQL? Excel? CSV?)
         /// </summary>
-        public readonly string Type;
+        public string Type { get; }
 
         /// <summary>
         /// If set, contains the set of data connections embedded in this workbooks
@@ -47,7 +47,7 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not datasource");
             }
             //Get the underlying data source type
-            this.Type = datasourceNode.Attributes["type"].Value;
+            Type = datasourceNode.Attributes["type"].Value;
 
         }
 
@@ -57,7 +57,7 @@ namespace TabRESTMigrate.ServerData
         /// <returns></returns>
         public override string ToString()
         {
-            return "Datasource: " + this.Name + "/" + this.Type + "/" + this.Id;
+            return "Datasource: " + Name + "/" + Type + "/" + Id;
         }
 
         /// <summary>

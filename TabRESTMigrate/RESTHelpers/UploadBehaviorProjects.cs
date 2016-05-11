@@ -5,13 +5,13 @@
     /// </summary>
     public class UploadBehaviorProjects
     {
-        public readonly bool AttemptProjectCreate;
-        public readonly bool UseDefaultProjectIfNeeded;
+        public bool AttemptProjectCreate { get; }
+        public bool UseDefaultProjectIfNeeded { get; }
 
         public UploadBehaviorProjects(bool attemptCreate, bool allowDefaultIfNeeded)
         {
-            this.AttemptProjectCreate = attemptCreate;
-            this.UseDefaultProjectIfNeeded = allowDefaultIfNeeded;
+            AttemptProjectCreate = attemptCreate;
+            UseDefaultProjectIfNeeded = allowDefaultIfNeeded;
         }
     }
 }

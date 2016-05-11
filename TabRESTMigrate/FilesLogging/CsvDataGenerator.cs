@@ -7,18 +7,12 @@ namespace TabRESTMigrate.FilesLogging
     /// <summary>
     /// Management class for customer actions 
     /// </summary>
-    class CsvDataGenerator
+    public class CsvDataGenerator
     {
         List<string> _knownKeys = new List<string>();
         List<CsvRowValuePairs> _customerActions = new List<CsvRowValuePairs>();
 
-        public int Count
-        {
-            get
-            {
-                return _customerActions.Count;
-            }
-        }
+        public int Count => _customerActions.Count;
 
         /// <summary>
         /// Constructor
@@ -125,7 +119,6 @@ namespace TabRESTMigrate.FilesLogging
         /// Ends a CSV item
         /// </summary>
         /// <param name="sb"></param>
-        /// <param name="isFirstItem"></param>
 //    private static void EndCSVLine(StringBuilder sb, ref bool isFirstItem)
         private static void EndCSVLine(StringBuilder sb)
         {
@@ -137,7 +130,7 @@ namespace TabRESTMigrate.FilesLogging
         /// </summary>
         /// <param name="sb"></param>
         /// <param name="appendValue"></param>
-        /// <param name="isFirstItem"></param>
+        /// <param name="notFirstItem"></param>
         private static void AppendCSVValue(StringBuilder sb, string appendValue, SimpleLatch notFirstItem)
         {
             //Normalize the input

@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using TabRESTMigrate.RESTHelpers;
 
 namespace TabRESTMigrate.ServerData
@@ -6,26 +7,27 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Base class for information common to Workbooks and Data Sources, so we don't have lots of redundant code
     /// </summary>
-    abstract class SiteDocumentBase : IHasProjectId, ITagSetInfo, IHasSiteItemId
+    public abstract class SiteDocumentBase : IHasProjectId, ITagSetInfo, IHasSiteItemId
     {
-        public readonly string Id;
-        public readonly string Name;
+        public string Id { get; }
+        public string Name { get; }
         //Note: [2015-10-28] Datasources presently don't return this information
-        //public readonly string ContentUrl;
-        public readonly string ProjectId;
-        public readonly string ProjectName;
-        public readonly string OwnerId;
-        public readonly SiteTagsSet TagsSet;
+        //public  string ContentUrl;
+        public string ProjectId { get; }
+        public string ProjectName { get; }
+        public string OwnerId { get; }
+        public SiteTagsSet TagsSet { get; }
 
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         protected SiteDocumentBase(XmlNode xmlNode)
         {
-            this.Name = xmlNode.Attributes["name"].Value;
-            this.Id = xmlNode.Attributes["id"].Value;
+            if (xmlNode.Attributes == null) throw new NullReferenceException($"Can not create {GetType()} xmlNode is null!");
+            Name = xmlNode.Attributes["name"].Value;
+            Id = xmlNode.Attributes["id"].Value;
 
 //Note: [2015-10-28] Datasources presently don't return this information
 //        this.ContentUrl = xmlNode.Attributes["contentUrl"].Value;
@@ -35,52 +37,36 @@ namespace TabRESTMigrate.ServerData
 
             //Get the project attributes
             var projectNode = xmlNode.SelectSingleNode("iwsOnline:project", nsManager);
-            this.ProjectId = projectNode.Attributes["id"].Value;
-            this.ProjectName = projectNode.Attributes["name"].Value;
+            if (projectNode != null)
+            {
+                ProjectId = projectNode.Attributes?["id"].Value;
+                ProjectName = projectNode.Attributes?["name"].Value;
+            }
 
             //Get the owner attributes
             var ownerNode = xmlNode.SelectSingleNode("iwsOnline:owner", nsManager);
-            this.OwnerId = ownerNode.Attributes["id"].Value;
+            OwnerId = ownerNode?.Attributes?["id"].Value;
 
             //See if there are tags
             var tagsNode = xmlNode.SelectSingleNode("iwsOnline:tags", nsManager);
             if (tagsNode != null)
             {
-                this.TagsSet = new SiteTagsSet(tagsNode);
+                TagsSet = new SiteTagsSet(tagsNode);
             }
         }
 
         /// <summary>
         /// Space delimited list of tags
         /// </summary>
-        public string TagSetText
-        {
-            get
-            {
-                var tagSet = this.TagsSet;
-                if (tagSet == null) return "";
-                return tagSet.TagSetText;
-            }
-        }
+        public string TagSetText => TagsSet == null ? "" : TagsSet.TagSetText;
 
-        string IHasProjectId.ProjectId
-        {
-            get { return this.ProjectId; }
-        }
+        string IHasProjectId.ProjectId => ProjectId;
 
         public bool IsTaggedWith(string tagText)
         {
-            var tagSet = this.TagsSet;
-            if(tagSet == null)
-            {
-                return false;
-            }
-            return TagsSet.IsTaggedWith(tagText);
+            return TagsSet != null && TagsSet.IsTaggedWith(tagText);
         }
 
-        string IHasSiteItemId.Id
-        {
-            get { return this.Id; }
-        }
+        string IHasSiteItemId.Id => Id;
     }
 }

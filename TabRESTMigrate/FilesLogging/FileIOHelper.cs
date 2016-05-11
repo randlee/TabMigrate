@@ -12,7 +12,7 @@ namespace TabRESTMigrate.FilesLogging
     /// <summary>
     /// Helper for file io
     /// </summary>
-    static class FileIOHelper
+    public static class FileIOHelper
     {
 
         /// <summary>

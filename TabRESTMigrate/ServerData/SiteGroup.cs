@@ -8,33 +8,28 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a Grou[ in a Server's site
     /// </summary>
-    class SiteGroup : IHasSiteItemId
+    public class SiteGroup : IHasSiteItemId
     {
-        public readonly string Id;
-        public readonly string Name;
-        List<SiteUser> _usersInGroup;
-//    public readonly string DomainName;
+        public string Id { get; }
+        public string Name { get; }
+        private List<SiteUser> UsersInGroup { get; }
+        //    public string DomainName  { get; }
 
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         /// <summary>
         /// Returns the list of users associated with this group
         /// </summary>
-        public ICollection<SiteUser> Users
-        {
-            get
-            {
-                return _usersInGroup.AsReadOnly();
-            }
-        }
+        public ICollection<SiteUser> Users => UsersInGroup.AsReadOnly();
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="projectNode"></param>
+        /// <param name="usersToPlaceInGroup"></param>
         public SiteGroup(XmlNode projectNode, IEnumerable<SiteUser> usersToPlaceInGroup )
         {
             //If we were passed in a set of users, store them
@@ -43,7 +38,7 @@ namespace TabRESTMigrate.ServerData
             {
                 usersList.AddRange(usersToPlaceInGroup);
             }
-            _usersInGroup = usersList;
+            UsersInGroup = usersList;
 
 
             if(projectNode.Name.ToLower() != "group")
@@ -52,15 +47,15 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not group");
             }
 
-            this.Id = projectNode.Attributes["id"].Value;
-            this.Name = projectNode.Attributes["name"].Value;
+            Id = projectNode.Attributes["id"].Value;
+            Name = projectNode.Attributes["name"].Value;
 //        this.DomainName = projectNode.Attributes["description"].Value;
         }
 
 
         public override string ToString()
         {
-            return "Group: " + this.Name + "/" + this.Id;
+            return "Group: " + Name + "/" + Id;
         }
 
         /// <summary>
@@ -75,12 +70,9 @@ namespace TabRESTMigrate.ServerData
                 return;
             }
 
-            _usersInGroup.AddRange(usersList);
+            UsersInGroup.AddRange(usersList);
         }
 
-        string IHasSiteItemId.Id
-        {
-            get { return this.Id; }
-        }
+        string IHasSiteItemId.Id => Id;
     }
 }

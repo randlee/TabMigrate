@@ -43,7 +43,7 @@ namespace TabRESTMigrate.RESTHelpers
         /// <param name="text"></param>
         protected static void WriteAsciiString(MemoryStream mStream, string text)
         {
-            var byteEncoding = ASCIIEncoding.ASCII.GetBytes(text);
+            var byteEncoding = Encoding.ASCII.GetBytes(text);
             mStream.Write(byteEncoding, 0, byteEncoding.Length);
         }
 
@@ -74,7 +74,7 @@ namespace TabRESTMigrate.RESTHelpers
         /// <param name="text"></param>
         protected static void WriteUtf8String(MemoryStream mStream, string text)
         {
-            var byteEncoding = UTF8Encoding.UTF8.GetBytes(text);
+            var byteEncoding = Encoding.UTF8.GetBytes(text);
             mStream.Write(byteEncoding, 0, byteEncoding.Length);
         }
     }

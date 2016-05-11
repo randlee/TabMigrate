@@ -4,15 +4,15 @@
     {
         internal class Credential
         {
-            public readonly string Name;
-            public readonly string Password;
-            public readonly bool IsEmbedded;
+            public string Name { get; }
+            public string Password { get; }
+            public bool IsEmbedded { get; }
 
             public Credential(string name, string password, bool isEmbedded)
             {
-                this.Name = name;
-                this.Password = password;
-                this.IsEmbedded = isEmbedded;
+                Name = name;
+                Password = password;
+                IsEmbedded = isEmbedded;
             }
         }
 

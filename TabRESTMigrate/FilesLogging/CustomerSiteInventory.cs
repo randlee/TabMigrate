@@ -42,7 +42,7 @@ namespace TabRESTMigrate.FilesLogging
         /// <summary>
         /// Status log data
         /// </summary>
-        public readonly TaskStatusLogs StatusLog;
+        public TaskStatusLogs StatusLog { get; }
 
         /// <summary>
         /// Constructor.  Builds the data for the CSV file

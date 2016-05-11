@@ -7,15 +7,15 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a User in a Server's site
     /// </summary>
-    class SiteUser : IHasSiteItemId
+    public class SiteUser : IHasSiteItemId
     {
-        public readonly string Name;
-        public readonly string Id;
-        public readonly string SiteRole;
+        public string Name { get; }
+        public string Id { get; }
+        public string SiteRole { get; }
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         /// <summary>
         /// Constructor
@@ -29,19 +29,16 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not user");
             }
 
-            this.Id = userNode.Attributes["id"].Value;
-            this.Name = userNode.Attributes["name"].Value;
-            this.SiteRole = userNode.Attributes["siteRole"].Value;
+            Id = userNode.Attributes["id"].Value;
+            Name = userNode.Attributes["name"].Value;
+            SiteRole = userNode.Attributes["siteRole"].Value;
         }
 
         public override string ToString()
         {
-            return "User: " + this.Name + "/" + this.Id + "/" + this.SiteRole;
+            return "User: " + Name + "/" + Id + "/" + SiteRole;
         }
 
-        string IHasSiteItemId.Id
-        {
-            get { return this.Id; }
-        }
+        string IHasSiteItemId.Id => Id;
     }
 }

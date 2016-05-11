@@ -79,11 +79,11 @@ namespace TabRESTMigrate.RESTRequests
         {
             int pageSize =_onlineUrls.PageSize; 
             //Create a web request, in including the users logged-in auth information in the request headers
-            var urlQuery = _onlineUrls.Url_DatasourcesList(_onlineSession, pageSize, pageToRequest);
+            var urlQuery = _onlineUrls.Url_DatasourcesList(OnlineSession, pageSize, pageToRequest);
             var webRequest = CreateLoggedInWebRequest(urlQuery);
             webRequest.Method = "GET";
 
-            _onlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
+            OnlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
             var response = GetWebReponseLogErrors(webRequest, "get datasources list");
             var xmlDoc = GetWebResponseAsXml(response);
 
@@ -102,7 +102,7 @@ namespace TabRESTMigrate.RESTRequests
                 catch
                 {
                     AppDiagnostics.Assert(false, "Datasource parse error");
-                    _onlineSession.StatusLog.AddError("Error parsing datasource: " + itemXml.InnerXml);
+                    OnlineSession.StatusLog.AddError("Error parsing datasource: " + itemXml.InnerXml);
                 }
             } //end: foreach
 

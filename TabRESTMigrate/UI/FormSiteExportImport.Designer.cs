@@ -36,6 +36,7 @@
             this.chkVerboseLog = new System.Windows.Forms.CheckBox();
             this.textBoxErrors = new System.Windows.Forms.TextBox();
             this.panelImportSite = new System.Windows.Forms.Panel();
+            this.chkImportRememberPassword = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -60,6 +61,7 @@
             this.txtIdExportFrom = new System.Windows.Forms.TextBox();
             this.txtUrlExportFrom = new System.Windows.Forms.TextBox();
             this.panelExportSite = new System.Windows.Forms.Panel();
+            this.chkExportRememberPassword = new System.Windows.Forms.CheckBox();
             this.chkExportRemoveExportTag = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtExportOnlyTagged = new System.Windows.Forms.TextBox();
@@ -70,6 +72,7 @@
             this.txtExportSingleProject = new System.Windows.Forms.TextBox();
             this.btnLinkExportSiteCommandLine = new System.Windows.Forms.LinkLabel();
             this.panelInventorySite = new System.Windows.Forms.Panel();
+            this.chkInventoryRememberPassword = new System.Windows.Forms.CheckBox();
             this.chkGenerateInventoryTwb = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -86,7 +89,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.comboBoxChooseAction = new System.Windows.Forms.ComboBox();
             this.panelTopSplitter = new System.Windows.Forms.Panel();
-            this.checkBoxRememberPassword = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerStatus)).BeginInit();
             this.splitContainerStatus.Panel1.SuspendLayout();
             this.splitContainerStatus.Panel2.SuspendLayout();
@@ -166,7 +168,7 @@
             this.chkVerboseLog.AutoSize = true;
             this.chkVerboseLog.Checked = true;
             this.chkVerboseLog.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkVerboseLog.Location = new System.Drawing.Point(423, 199);
+            this.chkVerboseLog.Location = new System.Drawing.Point(417, 199);
             this.chkVerboseLog.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.chkVerboseLog.Name = "chkVerboseLog";
             this.chkVerboseLog.Size = new System.Drawing.Size(200, 29);
@@ -187,7 +189,7 @@
             this.textBoxErrors.Name = "textBoxErrors";
             this.textBoxErrors.ReadOnly = true;
             this.textBoxErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxErrors.Size = new System.Drawing.Size(662, 238);
+            this.textBoxErrors.Size = new System.Drawing.Size(656, 238);
             this.textBoxErrors.TabIndex = 8;
             this.textBoxErrors.Text = "no errors yet...";
             // 
@@ -197,6 +199,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelImportSite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.panelImportSite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelImportSite.Controls.Add(this.chkImportRememberPassword);
             this.panelImportSite.Controls.Add(this.label17);
             this.panelImportSite.Controls.Add(this.label16);
             this.panelImportSite.Controls.Add(this.label13);
@@ -218,6 +221,18 @@
             this.panelImportSite.Name = "panelImportSite";
             this.panelImportSite.Size = new System.Drawing.Size(1754, 686);
             this.panelImportSite.TabIndex = 52;
+            // 
+            // chkImportRememberPassword
+            // 
+            this.chkImportRememberPassword.AutoSize = true;
+            this.chkImportRememberPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkImportRememberPassword.Location = new System.Drawing.Point(1508, 158);
+            this.chkImportRememberPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkImportRememberPassword.Name = "chkImportRememberPassword";
+            this.chkImportRememberPassword.Size = new System.Drawing.Size(243, 29);
+            this.chkImportRememberPassword.TabIndex = 98;
+            this.chkImportRememberPassword.Text = "Remember Password";
+            this.chkImportRememberPassword.UseVisualStyleBackColor = true;
             // 
             // label17
             // 
@@ -517,6 +532,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelExportSite.BackColor = System.Drawing.Color.Bisque;
             this.panelExportSite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelExportSite.Controls.Add(this.chkExportRememberPassword);
             this.panelExportSite.Controls.Add(this.chkExportRemoveExportTag);
             this.panelExportSite.Controls.Add(this.label5);
             this.panelExportSite.Controls.Add(this.txtExportOnlyTagged);
@@ -538,6 +554,18 @@
             this.panelExportSite.Name = "panelExportSite";
             this.panelExportSite.Size = new System.Drawing.Size(1836, 549);
             this.panelExportSite.TabIndex = 53;
+            // 
+            // chkExportRememberPassword
+            // 
+            this.chkExportRememberPassword.AutoSize = true;
+            this.chkExportRememberPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkExportRememberPassword.Location = new System.Drawing.Point(1303, 78);
+            this.chkExportRememberPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkExportRememberPassword.Name = "chkExportRememberPassword";
+            this.chkExportRememberPassword.Size = new System.Drawing.Size(243, 29);
+            this.chkExportRememberPassword.TabIndex = 97;
+            this.chkExportRememberPassword.Text = "Remember Password";
+            this.chkExportRememberPassword.UseVisualStyleBackColor = true;
             // 
             // chkExportRemoveExportTag
             // 
@@ -645,7 +673,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelInventorySite.BackColor = System.Drawing.Color.DarkSalmon;
             this.panelInventorySite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelInventorySite.Controls.Add(this.checkBoxRememberPassword);
+            this.panelInventorySite.Controls.Add(this.label3);
+            this.panelInventorySite.Controls.Add(this.chkInventoryRememberPassword);
             this.panelInventorySite.Controls.Add(this.chkGenerateInventoryTwb);
             this.panelInventorySite.Controls.Add(this.label8);
             this.panelInventorySite.Controls.Add(this.label7);
@@ -657,12 +686,23 @@
             this.panelInventorySite.Controls.Add(this.txtIdInventoryFromUserId);
             this.panelInventorySite.Controls.Add(this.txtPasswordInventoryFrom);
             this.panelInventorySite.Controls.Add(this.buttonRunInventorySite);
-            this.panelInventorySite.Controls.Add(this.label3);
             this.panelInventorySite.Location = new System.Drawing.Point(48, 145);
             this.panelInventorySite.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panelInventorySite.Name = "panelInventorySite";
             this.panelInventorySite.Size = new System.Drawing.Size(1724, 447);
             this.panelInventorySite.TabIndex = 57;
+            // 
+            // chkInventoryRememberPassword
+            // 
+            this.chkInventoryRememberPassword.AutoSize = true;
+            this.chkInventoryRememberPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkInventoryRememberPassword.Location = new System.Drawing.Point(1262, 78);
+            this.chkInventoryRememberPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.chkInventoryRememberPassword.Name = "chkInventoryRememberPassword";
+            this.chkInventoryRememberPassword.Size = new System.Drawing.Size(243, 29);
+            this.chkInventoryRememberPassword.TabIndex = 91;
+            this.chkInventoryRememberPassword.Text = "Remember Password";
+            this.chkInventoryRememberPassword.UseVisualStyleBackColor = true;
             // 
             // chkGenerateInventoryTwb
             // 
@@ -857,18 +897,6 @@
             this.panelTopSplitter.TabIndex = 59;
             this.panelTopSplitter.Visible = false;
             // 
-            // checkBoxRememberPassword
-            // 
-            this.checkBoxRememberPassword.AutoSize = true;
-            this.checkBoxRememberPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.checkBoxRememberPassword.Location = new System.Drawing.Point(1262, 78);
-            this.checkBoxRememberPassword.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.checkBoxRememberPassword.Name = "checkBoxRememberPassword";
-            this.checkBoxRememberPassword.Size = new System.Drawing.Size(243, 29);
-            this.checkBoxRememberPassword.TabIndex = 91;
-            this.checkBoxRememberPassword.Text = "Remember Password";
-            this.checkBoxRememberPassword.UseVisualStyleBackColor = true;
-            // 
             // FormSiteExportImport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -876,12 +904,12 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1911, 961);
             this.Controls.Add(this.panelInventorySite);
-            this.Controls.Add(this.panelExportSite);
+            this.Controls.Add(this.panelImportSite);
             this.Controls.Add(this.panelTopSplitter);
             this.Controls.Add(this.comboBoxChooseAction);
             this.Controls.Add(this.panelRunCommandLine);
             this.Controls.Add(this.splitContainerStatus);
-            this.Controls.Add(this.panelImportSite);
+            this.Controls.Add(this.panelExportSite);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MinimumSize = new System.Drawing.Size(1637, 898);
             this.Name = "FormSiteExportImport";
@@ -966,7 +994,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox chkExportRemoveExportTag;
         private System.Windows.Forms.CheckBox chkGenerateInventoryTwb;
-        private System.Windows.Forms.CheckBox checkBoxRememberPassword;
+        private System.Windows.Forms.CheckBox chkInventoryRememberPassword;
+        private System.Windows.Forms.CheckBox chkImportRememberPassword;
+        private System.Windows.Forms.CheckBox chkExportRememberPassword;
     }
 }
 

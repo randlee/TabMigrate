@@ -96,7 +96,7 @@ namespace TabRESTMigrate.RESTRequests
         public void ExecuteRequest()
         {
             //Helper object to track project Ids and create projects as needed
-            var projectListHelper = new ProjectFindCreateHelper(_onlineUrls, this._onlineSession, _uploadProjectBehavior);
+            var projectListHelper = new ProjectFindCreateHelper(_onlineUrls, this.OnlineSession, _uploadProjectBehavior);
 
             var statusLog = this.StatusLog;
             int countSuccess = 0;
@@ -320,7 +320,7 @@ namespace TabRESTMigrate.RESTRequests
             string uploadSessionId;
             try
             {
-                var fileUploader = new UploadFile(_onlineUrls, _onlineSession, localFilePath, _uploadChunkSizeBytes, _uploadChunkDelaySeconds);
+                var fileUploader = new UploadFile(_onlineUrls, OnlineSession, localFilePath, _uploadChunkSizeBytes, _uploadChunkDelaySeconds);
                 uploadSessionId = fileUploader.ExecuteRequest();
             }
             catch (Exception exFileUpload)
@@ -422,7 +422,7 @@ namespace TabRESTMigrate.RESTRequests
             var mimeGenerator = new MimeWriterXml(xmlText);
 
             //Create a web request to POST the MIME message to server to finalize the publish
-            var urlFinalizeUpload = _onlineUrls.Url_FinalizeWorkbookPublish(_onlineSession, uploadSessionId, publishedContentType);
+            var urlFinalizeUpload = _onlineUrls.Url_FinalizeWorkbookPublish(OnlineSession, uploadSessionId, publishedContentType);
 
             //NOTE: The publish finalization step can take several minutes, because server needs to unpack the uploaded ZIP and file it away.
             //      For this reason, we pass in a long timeout

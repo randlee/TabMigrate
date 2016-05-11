@@ -8,7 +8,7 @@ namespace TabRESTMigrate.FilesLogging
     /// <summary>
     /// Paths we care about
     /// </summary>
-    internal static class PathHelper
+    public static class PathHelper
     {
         /// <summary>
         /// Path to the applicaiton

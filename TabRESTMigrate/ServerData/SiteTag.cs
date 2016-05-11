@@ -7,18 +7,19 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a Tag
     /// </summary>
-    class SiteTag
+    public class SiteTag
     {
-        public readonly string Label;
+        public string Label { get; }
+
         /// <summary>
         /// Any developer/diagnostic notes we want to indicate
         /// </summary>
-        public readonly string DeveloperNotes;
+        public string DeveloperNotes { get; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="userNode"></param>
+        /// <param name="tagNode"></param>
         public SiteTag(XmlNode tagNode)
         {
             if (tagNode.Name.ToLower() != "tag")
@@ -27,13 +28,12 @@ namespace TabRESTMigrate.ServerData
                 throw new Exception("Unexpected content - not tag");
             }
 
-            this.Label = tagNode.Attributes["label"].Value;
+            Label = tagNode.Attributes["label"].Value;
         }
 
         public override string ToString()
         {
-            return "Tag: " + this.Label;
+            return "Tag: " + Label;
         }
-
     }
 }

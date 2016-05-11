@@ -8,7 +8,7 @@ namespace TabRESTMigrate.RESTHelpers
     /// </summary>
     class TableauServerWebClient : WebClient
     {
-        public readonly int WebRequestTimeout;
+        public int WebRequestTimeout { get; }
         public const int DefaultLongRequestTimeOutMs = 15 * 60 * 1000;  //15 minutes * 60 sec/minute * 1000 ms/sec
 
         /// <summary>
@@ -17,7 +17,7 @@ namespace TabRESTMigrate.RESTHelpers
         /// <param name="timeoutMs"></param>
         public TableauServerWebClient(int timeoutMs = DefaultLongRequestTimeOutMs)
         {
-            this.WebRequestTimeout = timeoutMs;
+            WebRequestTimeout = timeoutMs;
         }
 
         /// <summary>

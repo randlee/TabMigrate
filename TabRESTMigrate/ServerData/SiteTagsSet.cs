@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using TabRESTMigrate.FilesLogging;
@@ -10,21 +12,15 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about Tags associated with content in a site
     /// </summary>
-    class SiteTagsSet : ITagSetInfo
+    public class SiteTagsSet : ITagSetInfo, IReadOnlyList<SiteTag>
     {
-        IReadOnlyList<SiteTag> _tags;
-        public IEnumerable<SiteTag> Tags
-        {
-            get
-            {
-                return _tags;
-            }
-        }
+        private readonly IReadOnlyList<SiteTag> _tags;
+        public IReadOnlyList<SiteTag> Tags => _tags;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="userNode"></param>
+        /// <param name="tagsNode">'tags' XML node</param>
         public SiteTagsSet(XmlNode tagsNode)
         {
             if (tagsNode.Name.ToLower() != "tags")
@@ -40,6 +36,7 @@ namespace TabRESTMigrate.ServerData
             var tags = new List<SiteTag>();
             //Get the project tags
             var tagsSet = tagsNode.SelectNodes("iwsOnline:tag", nsManager);
+            if(tagsSet == null) throw new NullReferenceException("Tagset missing in XMLNode");
             foreach(var tagNode in tagsSet)
             {
                 var newTag = new SiteTag((XmlNode) tagNode);
@@ -49,13 +46,27 @@ namespace TabRESTMigrate.ServerData
             _tags = tags.AsReadOnly();
         }
 
+        /// <summary>Returns an enumerator that iterates through the collection.</summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
+        public IEnumerator<SiteTag> GetEnumerator()
+        {
+            return _tags.GetEnumerator();
+        }
+
         /// <summary>
         /// String representation
         /// </summary>
         /// <returns></returns>
         public override string ToString()
         {
-            return "tags: " + this.TagSetText;
+            return "tags: " + TagSetText;
+        }
+
+        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable) _tags).GetEnumerator();
         }
 
 
@@ -69,7 +80,7 @@ namespace TabRESTMigrate.ServerData
                 if (_tags == null) return "";
 
                 var sb = new StringBuilder();
-                int numItems = 0;
+                var numItems = 0;
                 foreach (var tag in _tags)
                 {
                     if (numItems > 0)
@@ -91,23 +102,27 @@ namespace TabRESTMigrate.ServerData
         /// <returns></returns>
         public bool IsTaggedWith(string tag)
         {
-            var tagSet = _tags;
             //No tags?
-            if(tagSet == null)
-            {
-                return false;
-            }
+            return _tags != null && _tags.Any(thisTag => thisTag.Label == tag);
 
             //Look for hte tag
-            foreach(var thisTag in tagSet)
-            {
-                if(thisTag.Label == tag)
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
+
+        #region Implementation of IReadOnlyCollection<out SiteTag>
+
+        /// <summary>Gets the number of elements in the collection.</summary>
+        /// <returns>The number of elements in the collection. </returns>
+        public int Count => _tags.Count;
+
+        #endregion
+
+        #region Implementation of IReadOnlyList<out SiteTag>
+
+        /// <summary>Gets the element at the specified index in the read-only list.</summary>
+        /// <returns>The element at the specified index in the read-only list.</returns>
+        /// <param name="index">The zero-based index of the element to get. </param>
+        public SiteTag this[int index] => _tags[index];
+
+        #endregion
     }
 }

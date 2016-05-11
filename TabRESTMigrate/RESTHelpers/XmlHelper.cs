@@ -52,7 +52,7 @@ namespace TabRESTMigrate.RESTHelpers
                 return defaultValue;
             }
 
-            return System.Convert.ToBoolean(attr.Value);
+            return Convert.ToBoolean(attr.Value);
 
         }
 

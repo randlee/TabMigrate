@@ -53,11 +53,11 @@ namespace TabRESTMigrate.RESTRequests
             var wbConnections = new List<SiteConnection>();
 
             //Create a web request, in including the users logged-in auth information in the request headers
-            var urlQuery = _onlineUrls.Url_WorkbookConnectionsList(_onlineSession, _workbookId);
+            var urlQuery = _onlineUrls.Url_WorkbookConnectionsList(OnlineSession, _workbookId);
             var webRequest = CreateLoggedInWebRequest(urlQuery);
             webRequest.Method = "GET";
 
-            _onlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
+            OnlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
             var response = GetWebReponseLogErrors(webRequest, "get workbook's connections list");
             var xmlDoc = GetWebResponseAsXml(response);
 
@@ -76,7 +76,7 @@ namespace TabRESTMigrate.RESTRequests
                 catch
                 {
                     AppDiagnostics.Assert(false, "Workbook  connections parse error");
-                    _onlineSession.StatusLog.AddError("Error parsing workbook: " + itemXml.InnerXml);
+                    OnlineSession.StatusLog.AddError("Error parsing workbook: " + itemXml.InnerXml);
                 }
             } //end: foreach
 

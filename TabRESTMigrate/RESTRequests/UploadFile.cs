@@ -133,7 +133,7 @@ namespace TabRESTMigrate.RESTRequests
         /// <param name="uploadSessionId"></param>
         private void UploadSingleChunk(string uploadSessionId, byte [] uploadDataBuffer, int numBytes)
         {
-            var urlAppendChunk = _onlineUrls.Url_AppendFileUploadChunk(_onlineSession, uploadSessionId);
+            var urlAppendChunk = _onlineUrls.Url_AppendFileUploadChunk(OnlineSession, uploadSessionId);
 
             var uploadChunkAsMime = new MimeWriterFileUploadChunk(uploadDataBuffer, numBytes);
             var webRequest = this.CreateAndSendMimeLoggedInRequest(urlAppendChunk, "PUT", uploadChunkAsMime); //NOTE: This command requires a PUT not a GET
@@ -166,7 +166,7 @@ namespace TabRESTMigrate.RESTRequests
         /// <returns></returns>
         private string RequestUploadSessionId()
         {
-            var urlInitiateFileUpload = _onlineUrls.Url_InitiateFileUpload(_onlineSession);
+            var urlInitiateFileUpload = _onlineUrls.Url_InitiateFileUpload(OnlineSession);
 
             var webRequest = this.CreateLoggedInWebRequest(urlInitiateFileUpload, "POST"); //NOTE: This command requires a POST not a GET
             var response = GetWebReponseLogErrors(webRequest, "get datasources list");

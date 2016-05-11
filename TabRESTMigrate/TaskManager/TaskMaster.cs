@@ -10,7 +10,7 @@ using TabRESTMigrate.WorkbookTransforms;
 
 namespace TabRESTMigrate.TaskManager
 {
-    internal partial class TaskMaster
+    public partial class TaskMaster
     {
         Thread _thread = null;
 
@@ -28,47 +28,24 @@ namespace TabRESTMigrate.TaskManager
         /// <summary>
         /// If there was a task to produce a site inventory report, this property will contain the path to that report
         /// </summary>
-        public string PathToSiteInventoryReportCsv
-        {
-            get
-            {
-                return _pathGeneratedSiteInventoryReportCsv;
-            }
-        }
+        public string PathToSiteInventoryReportCsv => _pathGeneratedSiteInventoryReportCsv;
 
         /// <summary>
         /// If there was a task to produce a site inventory report, this property will contain the path to that report
         /// </summary>
-        public string PathToSiteInventoryReportTwb
-        {
-            get
-            {
-                return _pathGeneratedSiteInventoryReportTwb;
-            }
-        }
+        public string PathToSiteInventoryReportTwb => _pathGeneratedSiteInventoryReportTwb;
 
 
         /// <summary>
         /// If there were manual steps recorded in a CSV file, this path will point to that file
         /// </summary>
-        public string PathToManualStepsReport
-        {
-            get
-            {
-                return _pathGeneratedManualStepsReport;
-            }
-        }
+        public string PathToManualStepsReport => _pathGeneratedManualStepsReport;
 
         /// <summary>
         /// If we took an  inventory of the list of projects this will contain the list
         /// </summary>
-        public IEnumerable<SiteProject> ProjectsList
-        {
-            get
-            {
-                return _downloadedList_Projects;
-            }
-        }
+        public IEnumerable<SiteProject> ProjectsList => _downloadedList_Projects;
+
         private IEnumerable<SiteProject> _downloadedList_Projects;
 
 
@@ -76,38 +53,23 @@ namespace TabRESTMigrate.TaskManager
         /// <summary>
         /// If we took an inventory of groups, return them
         /// </summary>
-        public IEnumerable<SiteGroup> GroupsList
-        {
-            get
-            {
-                return _downloadedList_Groups;
-            }
-        }
+        public IEnumerable<SiteGroup> GroupsList => _downloadedList_Groups;
+
         private IEnumerable<SiteGroup> _downloadedList_Groups;
 
         /// <summary>
         /// If we downloaded the list of data sources, it will be here
         /// </summary>
-        public IEnumerable<SiteDatasource> DatasourcesList
-        {
-            get
-            {
-                return _downloadedList_Datasources;
-            }
-        }
+        public IEnumerable<SiteDatasource> DatasourcesList => _downloadedList_Datasources;
+
         private IEnumerable<SiteDatasource> _downloadedList_Datasources;
 
 
         /// <summary>
         /// If we downloaded the list of workbooks, it will be here
         /// </summary>
-        public IEnumerable<SiteWorkbook> WorkbooksList
-        {
-            get
-            {
-                return _downloadedList_Workbooks;
-            }
-        }
+        public IEnumerable<SiteWorkbook> WorkbooksList => _downloadedList_Workbooks;
+
         private IEnumerable<SiteWorkbook> _downloadedList_Workbooks;
 
 
@@ -115,34 +77,20 @@ namespace TabRESTMigrate.TaskManager
         /// <summary>
         /// If we downloaded the list of users, it will be here
         /// </summary>
-        public IEnumerable<SiteUser> UsersList
-        {
-            get
-            {
-                return _downloadedList_Users;
-            }
-        }
+        public IEnumerable<SiteUser> UsersList => _downloadedList_Users;
+
         private IEnumerable<SiteUser> _downloadedList_Users;
 
-        public CustomerManualActionManager CustomerManualActionManager 
-        {
-            get
-            {
-                return _manualActions;
-            }
-        }
+        public CustomerManualActionManager CustomerManualActionManager => _manualActions;
 
         /// <summary>
         /// Where are we are exporting to
         /// </summary>
-        public string PathToExportTo
-        {
-            get { return _exportToLocalPath; }
-        }
+        public string PathToExportTo => _exportToLocalPath;
 
         bool _isDone = false;
 
-        public readonly string JobName;
+        public string JobName { get; }
         /// <summary>
         /// Constructor
         /// </summary>
@@ -199,24 +147,13 @@ namespace TabRESTMigrate.TaskManager
 
             thread.Abort();
         }
-        public bool IsDone
-        {
-            get
-            {
-                return _isDone;
-            }
-        }
+        public bool IsDone => _isDone;
 
         /// <summary>
         /// Live status log
         /// </summary>
-        public TaskStatusLogs StatusLog
-        {
-            get
-            {
-                return _statusLog;
-            }
-        }
+        public TaskStatusLogs StatusLog => _statusLog;
+
         /// <summary>
         /// Starts the task running
         /// </summary>
@@ -247,7 +184,6 @@ namespace TabRESTMigrate.TaskManager
             catch (Exception exCustomCommand)
             {
                 _statusLog.AddError("Error during custom GET, " + exCustomCommand.ToString());
-
             }
         }
 
@@ -678,10 +614,7 @@ namespace TabRESTMigrate.TaskManager
             }
             catch(Exception exUnexpected)
             {
-                if(_statusLog != null)
-                {
-                    _statusLog.AddError("Error executing tasks: " + exUnexpected.ToString());
-                }
+                _statusLog?.AddError("Error executing tasks: " + exUnexpected.ToString());
             }
             finally
             {

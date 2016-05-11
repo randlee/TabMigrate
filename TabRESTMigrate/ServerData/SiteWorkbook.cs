@@ -10,11 +10,11 @@ namespace TabRESTMigrate.ServerData
     /// <summary>
     /// Information about a Workbook in a Server's site
     /// </summary>
-    class SiteWorkbook : SiteDocumentBase, IEditDataConnectionsSet
+    public class SiteWorkbook : SiteDocumentBase, IEditDataConnectionsSet
     {
-        public readonly bool ShowTabs;
+        public bool ShowTabs { get; }
         //Note: [2015-10-28] Datasources presently don't return this information, so we need to make this workbook specific
-        public readonly string ContentUrl;
+        public string ContentUrl { get; }
 
 
         /// <summary>
@@ -22,16 +22,7 @@ namespace TabRESTMigrate.ServerData
         /// </summary>
         private List<SiteConnection> _dataConnections;
 
-        public ReadOnlyCollection<SiteConnection> DataConnections
-        {
-            get
-            {
-                var dataConnections = _dataConnections;
-                if (dataConnections == null) return null;
-
-                return dataConnections.AsReadOnly();
-            }
-        }
+        public ReadOnlyCollection<SiteConnection> DataConnections => _dataConnections?.AsReadOnly();
 
         /// <summary>
         /// Constructor
@@ -46,10 +37,10 @@ namespace TabRESTMigrate.ServerData
             }
 
             //Note: [2015-10-28] Datasources presently don't return this information, so we need to make this workbook specific
-            this.ContentUrl = workbookNode.Attributes["contentUrl"].Value;
+            ContentUrl = workbookNode.Attributes["contentUrl"].Value;
 
             //Do we have tabs?
-            this.ShowTabs = XmlHelper.SafeParseXmlAttribute_Bool(workbookNode, "showTabs", false);
+            ShowTabs = XmlHelper.SafeParseXmlAttribute_Bool(workbookNode, "showTabs", false);
         }
 
 

@@ -109,7 +109,7 @@ namespace TabRESTMigrate.RESTRequests
             var webRequest = CreateLoggedInWebRequest(urlQuery);
             webRequest.Method = "GET";
 
-            _onlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
+            OnlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
             var response = GetWebReponseLogErrors(webRequest, "get users list");
             var xmlDoc = GetWebResponseAsXml(response);
 
@@ -128,7 +128,7 @@ namespace TabRESTMigrate.RESTRequests
                 catch
                 {
                     AppDiagnostics.Assert(false, "User parse error");
-                    _onlineSession.StatusLog.AddError("Error parsing user: " + itemXml.InnerXml);
+                    OnlineSession.StatusLog.AddError("Error parsing user: " + itemXml.InnerXml);
                 }
             } //end: foreach
 

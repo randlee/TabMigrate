@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using TabRESTMigrate.FilesLogging;
 using TabRESTMigrate.RESTHelpers;
@@ -22,15 +23,7 @@ namespace TabRESTMigrate.RESTRequests
         /// Groups we've parsed from server results
         /// </summary>
         private List<SiteGroup> _groups;
-        public IEnumerable<SiteGroup> Groups
-        {
-            get
-            {
-                var ds = _groups;
-                if (ds == null) return null;
-                return ds.AsReadOnly();
-            }
-        }
+        public IEnumerable<SiteGroup> Groups => _groups?.AsReadOnly();
 
 
         /// <summary>
@@ -47,14 +40,13 @@ namespace TabRESTMigrate.RESTRequests
         /// <summary>
         /// Request the data from Online
         /// </summary>
-        /// <param name="serverName"></param>
         public void ExecuteRequest()
         {
             var siteGroups = new List<SiteGroup>();
 
-            int numberPages = 1; //Start with 1 page (we will get an updated value from server)
+            var numberPages = 1; //Start with 1 page (we will get an updated value from server)
             //Get subsequent pages
-            for (int thisPage = 1; thisPage <= numberPages; thisPage++)
+            for (var thisPage = 1; thisPage <= numberPages; thisPage++)
             {
                 try
                 {
@@ -80,13 +72,13 @@ namespace TabRESTMigrate.RESTRequests
             int pageToRequest, 
             out int totalNumberPages)
         {
-            int pageSize = _onlineUrls.PageSize;
+            var pageSize = _onlineUrls.PageSize;
             //Create a web request, in including the users logged-in auth information in the request headers
-            var urlQuery = _onlineUrls.Url_GroupsList(_onlineSession, pageSize, pageToRequest);
+            var urlQuery = _onlineUrls.Url_GroupsList(OnlineSession, pageSize, pageToRequest);
             var webRequest = CreateLoggedInWebRequest(urlQuery);
             webRequest.Method = "GET";
 
-            _onlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
+            OnlineSession.StatusLog.AddStatus("Web request: " + urlQuery, -10);
             var response = GetWebReponseLogErrors(webRequest, "get groups list");
             var xmlDoc = GetWebResponseAsXml(response);
 
@@ -109,7 +101,7 @@ namespace TabRESTMigrate.RESTRequests
                 catch(Exception exGetGroup)
                 {
                     AppDiagnostics.Assert(false, "Group parse error");
-                    _onlineSession.StatusLog.AddError("Error parsing group: " + itemXml.OuterXml + ", " + exGetGroup.Message);
+                    OnlineSession.StatusLog.AddError("Error parsing group: " + itemXml.OuterXml + ", " + exGetGroup.Message);
                 }
 
 
@@ -122,14 +114,14 @@ namespace TabRESTMigrate.RESTRequests
                     {
                         var downloadUsersInGroup = new DownloadUsersListInGroup(
                             _onlineUrls, 
-                            _onlineSession, 
+                            OnlineSession, 
                             thisGroup.Id);
                         downloadUsersInGroup.ExecuteRequest();
                         thisGroup.AddUsers(downloadUsersInGroup.Users);
                     }
                     catch (Exception exGetUsers)
                     {
-                        _onlineSession.StatusLog.AddError("Error parsing group's users: " + exGetUsers.Message);
+                        OnlineSession.StatusLog.AddError("Error parsing group's users: " + exGetUsers.Message);
                     }
                 }
 
@@ -151,7 +143,7 @@ namespace TabRESTMigrate.RESTRequests
         {
             if(string.IsNullOrWhiteSpace(group.Id))
             {
-                _onlineSession.StatusLog.AddError(group.Name + " is missing a group ID. Not returned from server! xml=" + xmlNode.OuterXml);
+                OnlineSession.StatusLog.AddError(group.Name + " is missing a group ID. Not returned from server! xml=" + xmlNode.OuterXml);
             }
         }
 
@@ -163,15 +155,7 @@ namespace TabRESTMigrate.RESTRequests
         /// <returns></returns>
         public SiteGroup FindGroupWithName(string findName)
         {
-            foreach(var thisGroup in _groups)
-            {
-                if (thisGroup.Name == findName)
-                {
-                    return thisGroup;
-                }
-            }
-
-            return null; //Not found
+            return _groups.FirstOrDefault(thisGroup => thisGroup.Name == findName);
         }
 
         /// <summary>
@@ -181,12 +165,7 @@ namespace TabRESTMigrate.RESTRequests
         /// <returns></returns>
         SiteGroup FindGroupWithId(string groupId)
         {
-            foreach(var thisGroup in _groups)
-            {
-                if (thisGroup.Id == groupId) { return thisGroup; }
-            }
-
-            return null;
+            return _groups.FirstOrDefault(thisGroup => thisGroup.Id == groupId);
         }
 
         /// <summary>

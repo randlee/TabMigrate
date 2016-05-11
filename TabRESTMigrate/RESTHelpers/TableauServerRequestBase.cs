@@ -7,7 +7,7 @@ namespace TabRESTMigrate.RESTHelpers
     /// <summary>
     /// Base class on top of which requests to Tableau Server are based
     /// </summary>
-    abstract class TableauServerRequestBase
+    public abstract class TableauServerRequestBase
     {
         /// <summary>
         /// Sends the body text up to the server

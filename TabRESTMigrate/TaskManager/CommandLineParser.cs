@@ -6,7 +6,7 @@ namespace TabRESTMigrate.TaskManager
     /// <summary>
     /// Gives parsed values for the command line arguments
     /// </summary>
-    partial class CommandLineParser
+    public partial class CommandLineParser
     {
         //Example: -command inventory -fromSiteUrl https://foo.bar/123 -inventoryOutputFile "c:\some dir\some location" -fromSiteUserId test@example.com -fromSiteUserPassword "pw 123" -fromSiteIsSystemAdmin true
 
