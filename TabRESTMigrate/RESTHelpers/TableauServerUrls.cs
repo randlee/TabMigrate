@@ -58,7 +58,18 @@ namespace TabRESTMigrate.RESTHelpers
         public int PageSize = 1000;
         public const int UploadFileChunkSize = 8000000; //8MB
 
-        public const string 
+        public const string IWS_SITE_ID = "{{iwsSiteId}}";
+        public const string IWS_UPLOAD_SESSION = "{{iwsUploadSession}}";
+        public const string IWS_USER_ID = "{{iwsUserId}}";
+        public const string IWS_PAGE_SIZE = "{{iwsPageSize}}";
+        public const string IWS_GROUP_ID = "{{iwsGroupId}}";
+        public const string IWS_PAGE_NUMBER = "{{iwsPageNumber}}";
+        public const string IWS_WORKBOOK_ID = "{{iwsWorkbookId}}";
+        public const string IWS_DATASOURCE_ID = "{{iwsDatasourceId}}";
+        public const string IWS_TAG_TEXT = "{{iwsTagText}}";
+        public const string IWS_REPO_ID = "{{iwsRepositoryId}}";
+        public const string IWS_DATASOURCE_TYPE = "{{iwsDatasourceType}}";
+        public const string IWS_WORKBOOK_TYPE = "{{iwsWorkbookType}}";
         /// <summary>
         /// Constructor
         /// </summary>
@@ -81,23 +92,23 @@ namespace TabRESTMigrate.RESTHelpers
             ServerName = serverName;
             ServerUrlWithProtocol                 = serverNameWithProtocol;
             UrlLogin                              = $"{serverNameWithProtocol}/api/2.0/auth/signin";
-            _urlListWorkbooksForUserTemplate      = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/users/{{iwsUserId}}/workbooks?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            _urlListWorkbookConnectionsTemplate   = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/connections";
-            _urlListDatasourcesTemplate           = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            _urlListProjectsTemplate              = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/projects?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            _urlListGroupsTemplate                = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/groups?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            _urlListUsersTemplate                 = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}";
-            _urlListUsersInGroupTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/groups/{{iwsGroupId}}/users?pageSize={{iwsPageSize}}&pageNumber={{iwsPageNumber}}"; 
-            _urlDownloadDatasourceTemplate        = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsRepositoryId}}/content";
-            _urlDownloadWorkbookTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsRepositoryId}}/content";
-            _urlSiteInfoTemplate                  = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}";
-            _urlInitiateUploadTemplate            = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/fileUploads";
-            _urlAppendUploadChunkTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/fileUploads/{{iwsUploadSession}}";
-            _urlFinalizeUploadDatasourceTemplate  = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources?uploadSessionId={{iwsUploadSession}}&datasourceType={{iwsDatasourceType}}&overwrite=true";
-            _urlFinalizeUploadWorkbookTemplate    = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks?uploadSessionId={{iwsUploadSession}}&workbookType={{iwsWorkbookType}}&overwrite=true";
-            _urlCreateProjectTemplate             = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/projects";
-            _urlDeleteWorkbookTagTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/workbooks/{{iwsWorkbookId}}/tags/{{iwsTagText}}";
-            _urlDeleteDatasourceTagTemplate       = $"{serverNameWithProtocol}/api/2.0/sites/{{iwsSiteId}}/datasources/{{iwsDatasourceId}}/tags/{{iwsTagText}}";
+            _urlListWorkbooksForUserTemplate      = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/users/{IWS_USER_ID}/workbooks?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}";
+            _urlListWorkbookConnectionsTemplate   = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/workbooks/{IWS_WORKBOOK_ID}/connections";
+            _urlListDatasourcesTemplate           = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/datasources?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}";
+            _urlListProjectsTemplate              = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/projects?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}";
+            _urlListGroupsTemplate                = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/groups?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}";
+            _urlListUsersTemplate                 = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/users?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}";
+            _urlListUsersInGroupTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/groups/{IWS_GROUP_ID}/users?pageSize={IWS_PAGE_SIZE}&pageNumber={IWS_PAGE_NUMBER}"; 
+            _urlDownloadDatasourceTemplate        = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/datasources/{IWS_REPO_ID}/content";
+            _urlDownloadWorkbookTemplate          = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/workbooks/{IWS_REPO_ID}/content";
+            _urlSiteInfoTemplate                  = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}";
+            _urlInitiateUploadTemplate            = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/fileUploads";
+            _urlAppendUploadChunkTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/fileUploads/{IWS_UPLOAD_SESSION}";
+            _urlFinalizeUploadDatasourceTemplate  = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/datasources?uploadSessionId={IWS_UPLOAD_SESSION}&datasourceType={IWS_DATASOURCE_TYPE}&overwrite=true";
+            _urlFinalizeUploadWorkbookTemplate    = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/workbooks?uploadSessionId={IWS_UPLOAD_SESSION}&workbookType={IWS_WORKBOOK_TYPE}&overwrite=true";
+            _urlCreateProjectTemplate             = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/projects";
+            _urlDeleteWorkbookTagTemplate         = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/workbooks/{IWS_WORKBOOK_ID}/tags/{IWS_TAG_TEXT}";
+            _urlDeleteDatasourceTagTemplate       = $"{serverNameWithProtocol}/api/2.0/sites/{IWS_SITE_ID}/datasources/{IWS_DATASOURCE_ID}/tags/{IWS_TAG_TEXT}";
 
             //Any server version specific things we want to do?
             switch (serverVersion)
@@ -176,7 +187,7 @@ namespace TabRESTMigrate.RESTHelpers
         /// <returns></returns>
         public string Url_SiteInfo(TableauServerSignIn logInInfo)
         {
-            string workingText = _urlSiteInfoTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
+            string workingText = _urlSiteInfoTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -189,7 +200,7 @@ namespace TabRESTMigrate.RESTHelpers
         /// <returns></returns>
         public string Url_InitiateFileUpload(TableauServerSignIn logInInfo)
         {
-            string workingText = _urlInitiateUploadTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
+            string workingText = _urlInitiateUploadTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -202,8 +213,8 @@ namespace TabRESTMigrate.RESTHelpers
         /// <returns></returns>
         public string Url_AppendFileUploadChunk(TableauServerSignIn logInInfo, string uploadSession)
         {
-            string workingText = _urlAppendUploadChunkTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
-            workingText = workingText.Replace("{{iwsUploadSession}}", uploadSession);
+            string workingText = _urlAppendUploadChunkTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
+            workingText = workingText.Replace(IWS_UPLOAD_SESSION, uploadSession);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -220,9 +231,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_FinalizeDataSourcePublish(TableauServerSignIn logInInfo, string uploadSession, string datasourceType)
         {
 
-            string workingText = _urlFinalizeUploadDatasourceTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
-            workingText = workingText.Replace("{{iwsUploadSession}}", uploadSession);
-            workingText = workingText.Replace("{{iwsDatasourceType}}", datasourceType);
+            string workingText = _urlFinalizeUploadDatasourceTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
+            workingText = workingText.Replace(IWS_UPLOAD_SESSION, uploadSession);
+            workingText = workingText.Replace(IWS_DATASOURCE_TYPE, datasourceType);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -233,14 +244,14 @@ namespace TabRESTMigrate.RESTHelpers
         /// </summary>
         /// <param name="logInInfo"></param>
         /// <param name="uploadSession"></param>
-        /// <param name="datasourceType"></param>
+        /// <param name="workbookType"></param>
         /// <returns></returns>
         public string Url_FinalizeWorkbookPublish(TableauServerSignIn logInInfo, string uploadSession, string workbookType)
         {
 
-            string workingText = _urlFinalizeUploadWorkbookTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
-            workingText = workingText.Replace("{{iwsUploadSession}}", uploadSession);
-            workingText = workingText.Replace("{{iwsWorkbookType}}", workbookType);
+            string workingText = _urlFinalizeUploadWorkbookTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
+            workingText = workingText.Replace(IWS_UPLOAD_SESSION, uploadSession);
+            workingText = workingText.Replace(IWS_WORKBOOK_TYPE, workbookType);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -254,10 +265,10 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_WorkbooksListForUser(TableauServerSignIn session, string userId, int pageSize, int pageNumber = 1)
         {
             string workingText = _urlListWorkbooksForUserTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsUserId}}", userId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_USER_ID, userId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -271,8 +282,8 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_WorkbookConnectionsList(TableauServerSignIn session, string workbookId)
         {
             string workingText = _urlListWorkbookConnectionsTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsWorkbookId}}", workbookId);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_WORKBOOK_ID, workbookId);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -298,9 +309,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_DatasourcesList(TableauServerSignIn session, int pageSize, int pageNumber = 1)
         {
             string workingText = _urlListDatasourcesTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -314,7 +325,7 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_CreateProject(TableauServerSignIn session)
         {
             string workingText = _urlCreateProjectTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -330,9 +341,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_DeleteWorkbookTag(TableauServerSignIn session, string workbookId, string tagText)
         {
             string workingText = _urlDeleteWorkbookTagTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsWorkbookId}}", workbookId);
-            workingText = workingText.Replace("{{iwsTagText}}", tagText);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_WORKBOOK_ID, workbookId);
+            workingText = workingText.Replace(IWS_TAG_TEXT, tagText);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -348,9 +359,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_DeleteDatasourceTag(TableauServerSignIn session, string datasourceId, string tagText)
         {
             string workingText = _urlDeleteDatasourceTagTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsDatasourceId}}", datasourceId);
-            workingText = workingText.Replace("{{iwsTagText}}", tagText);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_DATASOURCE_ID, datasourceId);
+            workingText = workingText.Replace(IWS_TAG_TEXT, tagText);
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -365,9 +376,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_ProjectsList(TableauServerSignIn session, int pageSize, int pageNumber = 1)
         {
             string workingText = _urlListProjectsTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -381,9 +392,9 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_GroupsList(TableauServerSignIn session, int pageSize, int pageNumber = 1)
         {
             string workingText = _urlListGroupsTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -396,9 +407,9 @@ namespace TabRESTMigrate.RESTHelpers
         /// <returns></returns>
         public string Url_UsersList(TableauServerSignIn logInInfo, int pageSize, int pageNumber = 1)
         {
-            string workingText = _urlListUsersTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            string workingText = _urlListUsersTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -414,10 +425,10 @@ namespace TabRESTMigrate.RESTHelpers
         /// <returns></returns>
         public string Url_UsersListInGroup(TableauServerSignIn logInInfo, string groupId, int pageSize, int pageNumber = 1)
         {
-            string workingText = _urlListUsersInGroupTemplate.Replace("{{iwsSiteId}}", logInInfo.SiteId);
-            workingText = workingText.Replace("{{iwsGroupId}}", groupId);
-            workingText = workingText.Replace("{{iwsPageSize}}", pageSize.ToString());
-            workingText = workingText.Replace("{{iwsPageNumber}}", pageNumber.ToString());
+            string workingText = _urlListUsersInGroupTemplate.Replace(IWS_SITE_ID, logInInfo.SiteId);
+            workingText = workingText.Replace(IWS_GROUP_ID, groupId);
+            workingText = workingText.Replace(IWS_PAGE_SIZE, pageSize.ToString());
+            workingText = workingText.Replace(IWS_PAGE_NUMBER, pageNumber.ToString());
             ValidateTemplateReplaceComplete(workingText);
 
             return workingText;
@@ -431,8 +442,8 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_WorkbookDownload(TableauServerSignIn session, SiteWorkbook contentInfo)
         {
             string workingText = _urlDownloadWorkbookTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsRepositoryId}}", contentInfo.Id);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_REPO_ID, contentInfo.Id);
 
             ValidateTemplateReplaceComplete(workingText);
             return workingText;
@@ -446,8 +457,8 @@ namespace TabRESTMigrate.RESTHelpers
         public string Url_DatasourceDownload(TableauServerSignIn session, SiteDatasource contentInfo)
         {
             string workingText = _urlDownloadDatasourceTemplate;
-            workingText = workingText.Replace("{{iwsSiteId}}", session.SiteId);
-            workingText = workingText.Replace("{{iwsRepositoryId}}", contentInfo.Id);
+            workingText = workingText.Replace(IWS_SITE_ID, session.SiteId);
+            workingText = workingText.Replace(IWS_REPO_ID, contentInfo.Id);
 
             ValidateTemplateReplaceComplete(workingText);
             return workingText;
