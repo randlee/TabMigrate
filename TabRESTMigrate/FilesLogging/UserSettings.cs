@@ -34,6 +34,11 @@ namespace TabRESTMigrate.FilesLogging
         public string ServerUrl { get; set; }
         public bool SavePassword { get; set; }
         public bool UserIsAdmin { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether [generate tableau workbook].
+        /// </summary>
+        /// <value><c>true</c> if [generate tableau workbook]; otherwise, <c>false</c>.</value>
+        public bool GenerateTableauWorkbook { get; set; }
 
         /// <summary>
         /// Encrypt strings before the serialization.
@@ -107,10 +112,6 @@ namespace TabRESTMigrate.FilesLogging
     [Serializable]
     public class InventoryUserSettings : UserCredentials
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether [generate tableau workbook].
-        /// </summary>
-        /// <value><c>true</c> if [generate tableau workbook]; otherwise, <c>false</c>.</value>
-        public bool GenerateTableauWorkbook { get; set; }
+
     }
 }

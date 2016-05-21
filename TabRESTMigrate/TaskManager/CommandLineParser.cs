@@ -10,19 +10,14 @@ namespace TabRESTMigrate.TaskManager
     {
         //Example: -command inventory -fromSiteUrl https://foo.bar/123 -inventoryOutputFile "c:\some dir\some location" -fromSiteUserId test@example.com -fromSiteUserPassword "pw 123" -fromSiteIsSystemAdmin true
 
-        private List<string> _commandLineParameters;
+        private readonly List<string> _commandLineParameters;
 
 
         /// <summary>
         /// Gives the total command line arguments count
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return _commandLineParameters.Count;
-            }
-        }
+        public int Count => _commandLineParameters.Count;
+
         /// <summary>
         /// Constructors
         /// </summary>
@@ -47,7 +42,7 @@ namespace TabRESTMigrate.TaskManager
         /// <param name="parameterName"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public bool GetParameterValueAsBool(string parameterName, bool defaultValue = false)
+        public bool GetParameterValueAsBool(string parameterName, bool defaultValue = default(bool))
         {
             var paramValue = GetParameterValue(parameterName);
 
@@ -59,11 +54,7 @@ namespace TabRESTMigrate.TaskManager
 
             //Parse the text value
             paramValue = paramValue.Trim().ToLower();
-            if(paramValue == CommandLineParser.ParameterValue_True)
-            {
-                return true;
-            }
-            return false;
+            return paramValue == CommandLineParser.ParameterValue_True;
         }
 
         /// <summary>
@@ -90,7 +81,7 @@ namespace TabRESTMigrate.TaskManager
 
             if(parameters == null) return null;
 
-            int idxSeek = 0;
+            var idxSeek = 0;
             while((idxSeek < parameters.Count) &&
                   (parameters[idxSeek] != parameterName))
             {
@@ -104,15 +95,14 @@ namespace TabRESTMigrate.TaskManager
             }
 
             //The paramter value comes right after the parameter itself
-            int paramValueIdx = idxSeek + 1;
+            var paramValueIdx = idxSeek + 1;
             //Parameter was found but has no value, since it is the last thing in the array
             if(paramValueIdx >= parameters.Count)
             {
                 return "";
             }
 
-            string paramValueText = parameters[paramValueIdx];
-            return paramValueText;
+            return parameters[paramValueIdx];
         }
 
     }
